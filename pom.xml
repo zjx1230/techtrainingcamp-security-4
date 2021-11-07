@@ -37,6 +37,10 @@
             <optional>true</optional>
         </dependency>
         <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.kie</groupId>
             <artifactId>kie-ci</artifactId>
             <version>${drools.version}</version>

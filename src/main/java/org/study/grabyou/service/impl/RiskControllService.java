@@ -25,75 +25,9 @@ import org.study.grabyou.service.IRiskControllService;
 @Service
 public class RiskControllService implements IRiskControllService {
 
-  private StatelessKieSession kieSession;
-
-  private KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
-
-  private static Logger logger = LoggerFactory.getLogger(RiskControllService.class);
-
-  /**
-   * drools全局服务变量
-   */
-  private void setGlobal() {
-    // TODO
-  }
-
   @Override
   public void analysis(EventType type, String ip, String deviceID, String telephone) {
     // TODO this.kieSession.execute(object);
-  }
-
-  /**
-   * 规则集上线
-   * @param packageName
-   */
-  public void addPackage(String packageName) {
-    try {
-      File path = new File(this.getClass().getClassLoader().getResource(packageName).toURI().getPath());
-      if (path.isDirectory()) {
-        KnowledgeBuilder kbuilder = KnowledgeBuilderFactory.newKnowledgeBuilder();
-        File[] files = path.listFiles();
-        for (File file : files) {
-          if (file.getName().endsWith(".drl")) {
-            kbuilder.add(ResourceFactory.newClassPathResource(packageName + "/" + file.getName()), ResourceType.DRL);
-            if (kbuilder.hasErrors()) {
-              logger.error("Unable to compile drl. " + packageName + file.getName());
-              return;
-            } else {
-              String ruleName = file.getName().replace(".drl", "");
-              if (kbase.getRule(packageName, ruleName) != null) {
-                logger.info("update rule: " + packageName + "." + ruleName);
-              } else {
-                logger.info("add rule: " + packageName + "." + ruleName);
-              }
-            }
-          }
-        }
-
-        kbase.addKnowledgePackages(kbuilder.getKnowledgePackages());
-        kieSession = kbase.newStatelessKieSession();
-        setGlobal();
-        printRules();
-      }
-    } catch (URISyntaxException e) {
-      e.printStackTrace();
-    }
-  }
-
-  /**
-   * 打印规则
-   */
-  public void printRules() {
-    logger.info("print rule: -----------------------");
-    kbase.getKnowledgePackages().forEach(knowledgePackage ->
-        knowledgePackage.getRules().forEach(rule ->
-            logger.info("print rule: " + knowledgePackage.getName() + "." + rule.getName())));
-    logger.info("print rule: -----------------------");
-  }
-
-  @PostConstruct
-  public void init() {
-    addPackage("rules");
   }
 
 }

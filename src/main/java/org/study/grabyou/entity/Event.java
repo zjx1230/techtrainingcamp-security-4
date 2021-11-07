@@ -2,6 +2,7 @@ package org.study.grabyou.entity;
 
 import java.util.Date;
 import lombok.Data;
+import org.study.grabyou.enums.EventType;
 
 /**
  * 事件的抽象，用于风控分析
@@ -10,12 +11,17 @@ import lombok.Data;
  * @since 2021/11/5 上午11:29
  */
 @Data
-public abstract class Event {
+public class Event {
 
   /**
    * 事件id
    */
   private String id;
+
+  /**
+   * 事件类型
+   */
+  private EventType eventType;
 
   /**
    * 操作时间
@@ -42,7 +48,7 @@ public abstract class Event {
    */
   private int score;
 
-  /****** 暂时未使用到只是用于扩展使用 *****/
+  /****** 暂时未使用到只是先列着 *****/
 
   /**
    * 手机号段

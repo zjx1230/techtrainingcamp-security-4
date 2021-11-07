@@ -1,10 +1,13 @@
 package rules;
 
+import org.study.grabyou.entity.Event
+import org.study.grabyou.enums.EventType
+
 rule "98_login"
   salience 98
   lock-on-active true
   when
-
+    event:Event(eventType==EventType.LOGIN)
   then
     System.out.println("hello 98_login!");
 end
