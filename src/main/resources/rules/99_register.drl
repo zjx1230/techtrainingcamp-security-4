@@ -1,0 +1,10 @@
+package rules;
+
+rule "99_register"
+  salience 99
+  lock-on-active true
+  when
+
+  then
+    System.out.println("hello 99_register!");
+end

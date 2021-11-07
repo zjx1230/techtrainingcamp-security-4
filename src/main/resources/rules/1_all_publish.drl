@@ -1,0 +1,10 @@
+package rules;
+
+rule "1_all_publish"
+  salience 1
+  lock-on-active true
+  when
+
+  then
+    System.out.println("hello 1_all_publish!");
+end

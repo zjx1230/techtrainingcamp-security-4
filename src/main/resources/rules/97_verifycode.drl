@@ -1,0 +1,10 @@
+package rules;
+
+rule "97_verifycode"
+  salience 97
+  lock-on-active true
+  when
+
+  then
+    System.out.println("hello 97_verifycode!");
+end

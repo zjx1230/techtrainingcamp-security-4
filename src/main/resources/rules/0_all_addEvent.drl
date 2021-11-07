@@ -1,0 +1,10 @@
+package rules;
+
+rule "0_all_addEvent"
+  salience 0
+  lock-on-active true
+  when
+
+  then
+    System.out.println("hello 0_all_addEvent!");
+end
