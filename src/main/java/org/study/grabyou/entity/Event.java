@@ -48,6 +48,11 @@ public class Event {
    */
   private int score;
 
+  /**
+   * 运行的惩罚力度 0:默认是无，
+   */
+  private int DecisionType;
+
   /****** 暂时未使用到只是先列着 *****/
 
   /**

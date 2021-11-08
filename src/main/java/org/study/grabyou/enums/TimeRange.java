@@ -1,5 +1,7 @@
 package org.study.grabyou.enums;
 
+import java.util.Date;
+
 /**
  * 时间范围
  *
@@ -7,13 +9,31 @@ package org.study.grabyou.enums;
  * @since 2021/11/7 下午10:25
  */
 public enum TimeRange {
-  SECOND("second"),
-  MINUTE("minute"),
-  HOUR("hour");
+  LAST_SECOND,
+  LAST_MINUTE,
+  LAST_HOUR;
 
-  private String value;
+  public Date getMinTime(Date now) {
+    return new Date(now.getTime() - getTimeDiff());
+  }
 
-  private TimeRange(String v) {
-    value = v;
+  public Date getMaxTime(Date now) {
+    return now;
+  }
+
+  public long getTimeDiff() {
+    long timeDiff;
+    switch (this) {
+      case LAST_MINUTE:
+        timeDiff = 60 * 1000L;
+        break;
+      case LAST_HOUR:
+        timeDiff = 3600 * 1000L;
+        break;
+      default:
+        timeDiff = 1000L;
+        break;
+    }
+    return timeDiff;
   }
 }

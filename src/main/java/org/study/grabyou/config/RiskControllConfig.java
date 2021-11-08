@@ -92,4 +92,24 @@ public class RiskControllConfig {
    * 账号绑定的设备数阈值: HIGH
    */
   public final static int HIGH_ACCOUNT_BIND_DEVICES = 10;
+
+  /**
+   * Redis默认保存用户的过期时间为7天
+   */
+  public final static int EXPIRE_TIME = 7 * 24 * 3600;
+
+  /**
+   * 滑块
+   */
+  public final static int HUA_KUAI = 1;
+
+  /**
+   * 等待一段时间
+   */
+  public final static int WAIT_FOR = 2;
+
+  /**
+   * 拦截
+   */
+  public final static int REJECT = 3;
 }

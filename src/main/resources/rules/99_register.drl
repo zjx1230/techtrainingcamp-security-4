@@ -1,6 +1,7 @@
 package rules;
 
 import org.study.grabyou.service.impl.DimensionService
+import org.study.grabyou.config.RiskControllConfig
 import org.study.grabyou.entity.Event
 import org.study.grabyou.enums.EventType
 import org.study.grabyou.enums.DimensionType
@@ -14,7 +15,45 @@ rule "99_register"
   when
     event:Event(eventType==EventType.REGISTER)
   then
-    int cnt1 = dimensionService.calculateNum(event, DimensionType.TELEPHONE, TimeRange.SECOND);
-
+    for (DimensionType d : DimensionType.values()) {
+      for (TimeRange t : TimeRange.values()) {
+        int cnt = dimensionService.calculateNum(event, d, t);
+        System.out.println("cnt: " + cnt);
+        switch (t) {
+          case LAST_SECOND:
+            if (cnt > RiskControllConfig.LOW_OPERATE_TIMES_BY_SECONDS && cnt <= RiskControllConfig.MID_OPERATE_TIMES_BY_SECONDS) {
+              event.setDecisionType(RiskControllConfig.HUA_KUAI);
+            } else if (cnt > RiskControllConfig.MID_OPERATE_TIMES_BY_SECONDS && cnt <= RiskControllConfig.HIGH_OPERATE_TIMES_BY_SECONDS) {
+              event.setDecisionType(RiskControllConfig.WAIT_FOR);
+            } else if (cnt > RiskControllConfig.HIGH_OPERATE_TIMES_BY_SECONDS) {
+              event.setDecisionType(RiskControllConfig.REJECT);
+              // TODO 加入黑名单
+            }
+            break;
+          case LAST_MINUTE:
+            if (cnt > RiskControllConfig.LOW_OPERATE_TIMES_BY_MINUTE && cnt <= RiskControllConfig.MID_OPERATE_TIMES_BY_MINUTE) {
+              event.setDecisionType(RiskControllConfig.HUA_KUAI);
+            } else if (cnt > RiskControllConfig.MID_OPERATE_TIMES_BY_MINUTE && cnt <= RiskControllConfig.HIGH_OPERATE_TIMES_BY_MINUTE) {
+              event.setDecisionType(RiskControllConfig.WAIT_FOR);
+            } else if (cnt > RiskControllConfig.HIGH_OPERATE_TIMES_BY_MINUTE) {
+              event.setDecisionType(RiskControllConfig.REJECT);
+              // TODO 加入黑名单
+            }
+            break;
+          case LAST_HOUR:
+            if (cnt > RiskControllConfig.LOW_OPERATE_TIMES_BY_HOUR && cnt <= RiskControllConfig.MID_OPERATE_TIMES_BY_HOUR) {
+              event.setDecisionType(RiskControllConfig.HUA_KUAI);
+            } else if (cnt > RiskControllConfig.MID_OPERATE_TIMES_BY_HOUR && cnt <= RiskControllConfig.HIGH_OPERATE_TIMES_BY_HOUR) {
+              event.setDecisionType(RiskControllConfig.WAIT_FOR);
+            } else if (cnt > RiskControllConfig.HIGH_OPERATE_TIMES_BY_HOUR) {
+              event.setDecisionType(RiskControllConfig.REJECT);
+              // TODO 加入黑名单
+            }
+        }
+        if (event.getDecisionType() == RiskControllConfig.REJECT) break;
+      }
+      if (event.getDecisionType() == RiskControllConfig.REJECT) break;
+    }
+    delete(event);
     System.out.println("hello 99_register!");
 end
