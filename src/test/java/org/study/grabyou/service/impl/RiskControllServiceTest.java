@@ -28,17 +28,17 @@ class RiskControllServiceTest {
 
   @Test
   void analysis() throws InterruptedException {
-//    int d = riskControllService.analysis(EventType.REGISTER, "aa", "s", "1545484");
-//    System.out.println(d);
+    // 频繁注册
     AtomicInteger decisionType = new AtomicInteger();
     ExecutorService executorService = Executors.newFixedThreadPool(10);
     for (int i = 0; i < 100; i ++) {
       executorService.execute(()-> {
-        decisionType.set(riskControllService.analysis(EventType.REGISTER, "aa", "s", "1545484"));
+        decisionType.set(riskControllService.analysis(EventType.REGISTER, "aa", "s", null));
       });
     }
     Thread.sleep(3000);
     assertNotEquals(decisionType.get(), 0);
-//    assertEquals(decisionType.get(), 1);
+    assertEquals(decisionType.get(), 3);
+
   }
 }
