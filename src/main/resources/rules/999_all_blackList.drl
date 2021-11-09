@@ -1,10 +1,12 @@
 package rules;
 
+import org.study.grabyou.entity.Event
+
 rule "999_all_blackList"
   salience 999
   lock-on-active true
   when
-
+    event:Event()
   then
     System.out.println("hello 999_all_blackList!");
 end

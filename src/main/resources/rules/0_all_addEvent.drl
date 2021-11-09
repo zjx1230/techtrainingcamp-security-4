@@ -1,10 +1,14 @@
 package rules;
 
+import org.study.grabyou.entity.Event
+import org.study.grabyou.service.impl.UserEventLogService
+
 rule "0_all_addEvent"
   salience 0
-  lock-on-active true
+//  lock-on-active true
   when
-
+    event:Event()
   then
+    UserEventLogService.insertUserEvent(event);
     System.out.println("hello 0_all_addEvent!");
 end
