@@ -1,21 +1,21 @@
-package org.study.grabyou.serviceImpl;
+package org.study.grabyou.service.Impl;
 
 import java.util.GregorianCalendar;
 import java.util.Random;
 import java.util.Calendar;
 import java.util.Date;
 import java.sql.Timestamp;
-import org.study.grabyou.bean.applybean;
-import org.study.grabyou.mapper.applymapper;
-import org.study.grabyou.service.applyservice;
+import org.study.grabyou.bean.ApplyBean;
+import org.study.grabyou.mapper.ApplyMapper;
+import org.study.grabyou.service.ApplyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class applyserviceimp implements applyservice {
+public class ApplyServiceImp implements ApplyService {
 
   @Autowired
-  private applymapper applyMapper;
+  private ApplyMapper applyMapper;
 
   @Override
   public String getCode(String phonenum, String ip, String deviceid) {
@@ -31,7 +31,7 @@ public class applyserviceimp implements applyservice {
     Timestamp ExpireTime = new Timestamp(date.getTime());
 
 
-    applybean applyBean = new applybean();
+    ApplyBean applyBean = new ApplyBean();
     applyBean.setCode(code);
     applyBean.setPhonenum(phonenum);
     applyBean.setIp(ip);
@@ -43,11 +43,11 @@ public class applyserviceimp implements applyservice {
 
   @Override
   public boolean verifyCode(String phonenum, String ip, String deviceid, String code) {
-    applybean searchBean = new applybean();
+    ApplyBean searchBean = new ApplyBean();
     searchBean.setPhonenum(phonenum);
     searchBean.setIp(ip);
     searchBean.setDeviceid(deviceid);
-    applybean resultBean = applyMapper.getApply(searchBean);
+    ApplyBean resultBean = applyMapper.getApply(searchBean);
 
     if (resultBean == null || resultBean.getExpiretime().before(new Date())) {
       return false;

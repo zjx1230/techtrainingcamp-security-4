@@ -1,6 +1,7 @@
 package org.study.grabyou.bean;
 import java.sql.Timestamp;
-public class applybean {
+
+public class ApplyBean {
 
   private String phonenum;
   private String ip;

@@ -1,11 +1,11 @@
 package org.study.grabyou.mapper;
 
-import org.study.grabyou.bean.applybean;
+import org.study.grabyou.bean.ApplyBean;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface applymapper {
-  void addApply(applybean applyBean);
+public interface ApplyMapper {
+  void addApply(ApplyBean applyBean);
 
-  applybean getApply(applybean search);
+  ApplyBean getApply(ApplyBean search);
 }

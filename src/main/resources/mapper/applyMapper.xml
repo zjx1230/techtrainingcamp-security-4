@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="org.study.grabyou.mapper.applymapper">
+<mapper namespace="org.study.grabyou.mapper.ApplyMapper">
 
-  <select id="getApply" parameterType="org.study.grabyou.bean.applybean" resultType="org.study.grabyou.bean.applybean">
+  <select id="getApply" parameterType="org.study.grabyou.bean.ApplyBean" resultType="org.study.grabyou.bean.ApplyBean">
     SELECT * FROM apply WHERE phonenum = #{phonenum} AND ip = #{ip} AND deviceid = #{deviceid} ORDER BY expiretime DESC LIMIT 1
   </select>
-  <insert id="addApply" parameterType="org.study.grabyou.bean.applybean">
+  <insert id="addApply" parameterType="org.study.grabyou.bean.ApplyBean">
     INSERT INTO apply(phonenum,ip,deviceid,code,expiretime)
         VALUES(#{phonenum},#{ip},#{deviceid},#{code},#{expiretime})
   </insert>
