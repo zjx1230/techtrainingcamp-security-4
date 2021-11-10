@@ -34,6 +34,23 @@ public class DimensionService {
   private String deviceLimitSha;
 
   /**
+   * 计算账号的设备绑定数量
+   * @param userId
+   * @param deviceId
+   * @return
+   */
+  public int calculateBindNum(String userId, String deviceId) {
+    if (StringUtils.isEmpty(userId) || StringUtils.isEmpty(deviceId)) {
+      logger.error("参数错误");
+      return 0;
+    }
+
+    String key = userId + ":" + deviceId;
+    Long res = runBindLimitSha(key);
+    return res == null ? 0 : res.intValue();
+  }
+
+  /**
    * 计算频数
    * @param event
    * @param dimensionType
@@ -55,9 +72,9 @@ public class DimensionService {
                                             dimensionType.name().toLowerCase(),
                                             timeRange.name().toLowerCase());
     String remMaxScore = dateScore(new Date(operateTime.getTime() - RiskControllConfig.EXPIRE_TIME * 1000L));
-    Long ret = runCountSha(key, remMaxScore, dateScore(operateTime),
+    Long res = runCountSha(key, remMaxScore, dateScore(operateTime),
         String.valueOf(operateTime.getTime()), dateScore(timeRange.getMinTime(operateTime)), dateScore(timeRange.getMaxTime(operateTime)));
-    return ret == null ? 0 : ret.intValue();
+    return res == null ? 0 : res.intValue();
   }
 
   /**
@@ -68,6 +85,16 @@ public class DimensionService {
       countSha = redisDao.scriptLoad(RiskControllConfig.COUNT_LUA_SCRIPT);
     }
     return redisDao.evalSha(countSha, 1, new String[]{key, remMaxScore, String.valueOf(RiskControllConfig.EXPIRE_TIME), score, value, queryMinScore, queryMaxScore});
+  }
+
+  /**
+   * 运行bindLimit Lua脚本进行计数，自增计算绑定设备数量
+   */
+  private Long runBindLimitSha(String key) {
+    if (deviceLimitSha == null) {
+      deviceLimitSha = redisDao.scriptLoad(RiskControllConfig.DEVICE_LIMIT_LUA_SCRIPT);
+    }
+    return redisDao.evalSha(deviceLimitSha, 1, new String[]{key});
   }
 
   /**

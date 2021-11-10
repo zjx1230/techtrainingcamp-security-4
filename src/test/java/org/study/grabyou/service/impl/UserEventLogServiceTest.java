@@ -21,9 +21,9 @@ class UserEventLogServiceTest {
   @Test
   void insertUserEvent() throws IOException, InterruptedException {
     for (int i = 0; i < 10; i ++) {
-      UserEventLogService.insertUserEvent(EventFactory.build(EventType.REGISTER, "192.168.0.2", "Mac Book Pro", "12345678910"));
-      UserEventLogService.insertUserEvent(EventFactory.build(EventType.LOGIN, "192.168.0.2", "Win10", "12345678910"));
-      UserEventLogService.insertUserEvent(EventFactory.build(EventType.VERIFY, "192.168.0.2", "CentOS", "12345678910"));
+      UserEventLogService.insertUserEvent(EventFactory.build("zhangsan", EventType.REGISTER, "192.168.0.2", "Mac Book Pro", "12345678910"));
+      UserEventLogService.insertUserEvent(EventFactory.build("zhangsan", EventType.LOGIN, "192.168.0.2", "Win10", "12345678910"));
+      UserEventLogService.insertUserEvent(EventFactory.build("zhangsan", EventType.VERIFY, "192.168.0.2", "CentOS", "12345678910"));
     }
     Thread.sleep(3000);
   }

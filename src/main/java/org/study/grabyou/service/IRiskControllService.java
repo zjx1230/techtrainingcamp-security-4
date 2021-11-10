@@ -12,11 +12,12 @@ public interface IRiskControllService {
 
   /**
    * 风控分析接口
+   * @param userName
    * @param type
    * @param ip
    * @param deviceID
    * @param telephone 如果没有可以填null/空字符
    * @return 0:表示正常，1：RiskControllConfig.HUA_KUAI, 2: RiskControllConfig.WAIT_FOR, 3: RiskControllConfig.REJECT
    */
-  int analysis(EventType type, String ip, String deviceID, String telephone);
+  int analysis(String userName, EventType type, String ip, String deviceID, String telephone);
 }

@@ -35,8 +35,6 @@ public class UserEventLogService {
 
   private static AtomicLong tomorrow = new AtomicLong(curTime.get().getTime() + (3600 * 24 * 1000L));
 
-  private static String filepath = new SimpleDateFormat("yyyy-MM-dd").format(curTime.get()) + "-userEvent";
-
   private static final String directory = "userLog/";
 
   private static volatile BufferedWriter bufferedWriter;
@@ -53,18 +51,19 @@ public class UserEventLogService {
         logger.error("创建目录失败: " + directory + "\n");
       }
     }
+    judeFileExists(directory + new SimpleDateFormat("yyyy-MM-dd").format(curTime.get()) + "-userEvent");
   }
 
   // TODO 这段代码感觉可能有问题
   public static void insertUserEvent(Event event) throws IOException {
     initBufferedWriter();
     threadPool.execute(()-> {
-      judeFileExists(directory + filepath);
       String content = JSON.toJSONString(event);
       try {
         if (event.getOperateTime().getTime() >= tomorrow.get()) {
           curTime.set(new Date());
-          filepath = new SimpleDateFormat("yyyy-MM-dd").format(curTime) + "-userEvent";
+          String filepath = new SimpleDateFormat("yyyy-MM-dd").format(curTime.get()) + "-userEvent";
+          judeFileExists(directory + filepath);
           tomorrow.set(curTime.get().getTime() + (3600 * 24 * 1000L));
           synchronized (UserEventLogService.class) {
             bufferedWriter.flush();
@@ -96,6 +95,7 @@ public class UserEventLogService {
     if (bufferedWriter == null) {
       synchronized (UserEventLogService.class) {
         if (bufferedWriter == null) {
+          String filepath = new SimpleDateFormat("yyyy-MM-dd").format(curTime.get()) + "-userEvent";
           bufferedWriter = new BufferedWriter(new FileWriter(directory + filepath));
         }
       }

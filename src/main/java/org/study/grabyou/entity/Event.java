@@ -19,6 +19,11 @@ public class Event {
   private String id;
 
   /**
+   * 用户名
+   */
+  private String userName;
+
+  /**
    * 事件类型
    */
   private EventType eventType;

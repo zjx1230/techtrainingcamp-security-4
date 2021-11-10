@@ -7,7 +7,17 @@ package org.study.grabyou.enums;
  * @since 2021/11/7 下午10:27
  */
 public enum DimensionType {
-  TELEPHONE,
-  IP,
-  DEVICE_ID
+  TELEPHONE(0),
+  IP(1),
+  DEVICE_ID(2);
+
+  private int value;
+
+  private DimensionType(int v) {
+    value = v;
+  }
+
+  public int getValue() {
+    return value;
+  }
 }

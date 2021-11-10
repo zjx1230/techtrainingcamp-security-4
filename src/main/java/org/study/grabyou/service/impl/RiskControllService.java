@@ -31,6 +31,9 @@ public class RiskControllService implements IRiskControllService {
   @Autowired
   private DimensionService dimensionService;
 
+  @Autowired
+  private BlackListService blackListService;
+
   private StatelessKieSession kieSession;
 
   private KnowledgeBase kbase = KnowledgeBaseFactory.newKnowledgeBase();
@@ -42,6 +45,7 @@ public class RiskControllService implements IRiskControllService {
    */
   private void setGlobal() {
     kieSession.setGlobal("dimensionService", dimensionService);
+    kieSession.setGlobal("blackListService", blackListService);
   }
 
   /**
@@ -98,8 +102,8 @@ public class RiskControllService implements IRiskControllService {
   }
 
   @Override
-  public int analysis(EventType type, String ip, String deviceID, String telephone) {
-    Event event = EventFactory.build(type, ip, deviceID, telephone);
+  public int analysis(String userName, EventType type, String ip, String deviceID, String telephone) {
+    Event event = EventFactory.build(userName, type, ip, deviceID, telephone);
     this.kieSession.execute(event);
     return event.getDecisionType();
   }

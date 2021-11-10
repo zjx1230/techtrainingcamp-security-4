@@ -33,7 +33,7 @@ class RiskControllServiceTest {
     ExecutorService executorService = Executors.newFixedThreadPool(10);
     for (int i = 0; i < 100; i ++) {
       executorService.execute(()-> {
-        decisionType.set(riskControllService.analysis(EventType.REGISTER, "127.0.0.1", "Chrown", null));
+        decisionType.set(riskControllService.analysis("zhangsan", EventType.REGISTER, "127.0.0.1", "Chrown", null));
       });
     }
     Thread.sleep(3000);

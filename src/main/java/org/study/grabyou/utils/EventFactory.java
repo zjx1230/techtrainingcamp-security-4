@@ -16,8 +16,9 @@ import org.study.grabyou.enums.EventType;
 @Component
 public class EventFactory {
   
-  public static Event build(EventType eventType, String ip, String deviceID, String telephone) {
+  public static Event build(String userName,EventType eventType, String ip, String deviceID, String telephone) {
     Event event = new Event();
+    event.setUserName(userName);
     event.setOperateTime(new Date());
     event.setId(UUID.randomUUID().toString());
     event.setEventType(eventType);

@@ -1,29 +1,31 @@
-package org.study.grabyou.controller;
+package org.study.grabyou.service.impl;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.study.grabyou.enums.DimensionType;
 import org.study.grabyou.enums.EventType;
-import org.study.grabyou.service.impl.BlackListService;
 import org.study.grabyou.utils.BlackRecordFactory;
 
 /**
- * 测试首页
+ * 测试插入一条黑名单记录
  *
  * @author zjx
- * @since 2021/11/5 上午10:41
+ * @since 2021/11/10 上午11:10
  */
-@RestController
-public class IndexController {
+@SpringBootTest
+@MapperScan("org.study.grabyou.mapper")
+class BlackListServiceTest {
 
   @Autowired
   private BlackListService blackListService;
 
-  @GetMapping("/index")
-  public String index() {
+  @Test
+  void addBlackRecord() {
     blackListService.addBlackRecord(BlackRecordFactory.build("zhangsan", DimensionType.DEVICE_ID.getValue(),
         EventType.REGISTER.getValue(), "chrown", "注册次数过多"));
-    return "Hello, 字节！";
   }
 }
