@@ -39,7 +39,7 @@ public class UserEventLogService {
 
   private static volatile BufferedWriter bufferedWriter;
 
-  private static final ThreadPoolExecutor threadPool = new ThreadPoolExecutor(8, 16, 3, TimeUnit.SECONDS, new ArrayBlockingQueue<>(100));
+  private static final ThreadPoolExecutor threadPool = new ThreadPoolExecutor(8, 16, 3, TimeUnit.SECONDS, new ArrayBlockingQueue<>(1000));
 
   private static Logger logger = LoggerFactory.getLogger(UserEventLogService.class);
 
@@ -54,7 +54,11 @@ public class UserEventLogService {
     judeFileExists(directory + new SimpleDateFormat("yyyy-MM-dd").format(curTime.get()) + "-userEvent");
   }
 
-  // TODO 这段代码感觉可能有问题
+  /**
+   * 插入用户日志记录
+   * @param event
+   * @throws IOException
+   */
   public static void insertUserEvent(Event event) throws IOException {
     initBufferedWriter();
     threadPool.execute(()-> {

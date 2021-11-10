@@ -3,6 +3,7 @@ package org.study.grabyou.service.impl;
 import java.io.File;
 import java.net.URISyntaxException;
 import javax.annotation.PostConstruct;
+import org.apache.commons.lang.StringUtils;
 import org.kie.api.io.ResourceType;
 import org.kie.api.runtime.StatelessKieSession;
 import org.kie.internal.KnowledgeBase;
@@ -62,6 +63,7 @@ public class RiskControllService implements IRiskControllService {
           if (file.getName().endsWith(".drl")) {
             kbuilder.add(ResourceFactory.newClassPathResource(packageName + "/" + file.getName()), ResourceType.DRL);
             if (kbuilder.hasErrors()) {
+              logger.error(kbuilder.getErrors().toString());
               logger.error("Unable to compile drl. " + packageName + file.getName());
               return;
             } else {
@@ -103,6 +105,11 @@ public class RiskControllService implements IRiskControllService {
 
   @Override
   public int analysis(String userName, EventType type, String ip, String deviceID, String telephone) {
+    if (StringUtils.isEmpty(ip) || StringUtils.isEmpty(deviceID)) {
+      logger.error("参数错误，" + "ip: " + ip + ", deviceID: " + deviceID);
+      return -1;
+    }
+
     Event event = EventFactory.build(userName, type, ip, deviceID, telephone);
     this.kieSession.execute(event);
     return event.getDecisionType();

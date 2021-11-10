@@ -1,5 +1,6 @@
 package org.study.grabyou.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
 
@@ -10,7 +11,7 @@ import lombok.Data;
  * @since 2021/11/10 上午10:23
  */
 @Data
-public class BlackRecord {
+public class BlackRecord implements Serializable {
 
   /**
    * 记录id
@@ -23,7 +24,7 @@ public class BlackRecord {
   private String username;
 
   /**
-   * 维度, 0表示手机号，1表示IP,2表示设备ID
+   * 维度, 0表示手机号，1表示IP,2表示设备ID，3表示用户名
    */
   private int dimension;
 

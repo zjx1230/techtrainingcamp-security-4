@@ -1,6 +1,7 @@
 package org.study.grabyou.mapper;
 
 import org.study.grabyou.entity.BlackRecord;
+import org.study.grabyou.entity.Event;
 
 /**
  * 操作黑名单表
@@ -11,4 +12,6 @@ import org.study.grabyou.entity.BlackRecord;
 public interface BlackListMapper {
 
   void insertBlackRecord(BlackRecord blackRecord);
+
+  BlackRecord findBlackRecord(Event event);
 }

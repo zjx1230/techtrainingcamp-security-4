@@ -1,20 +1,25 @@
 package rules;
 
 import org.study.grabyou.service.impl.DimensionService
+import org.study.grabyou.service.impl.BlackListService
 import org.study.grabyou.config.RiskControllConfig
 import org.study.grabyou.entity.Event
 import org.study.grabyou.enums.EventType
 import org.study.grabyou.enums.DimensionType
 import org.study.grabyou.enums.TimeRange
+import org.study.grabyou.utils.BlackRecordFactory
+import org.apache.commons.lang.StringUtils
 
 global DimensionService dimensionService
+global BlackListService blackListService
 
-rule "99_register"
+rule "99_filter"
   salience 99
   lock-on-active true
   when
-    event:Event(eventType==EventType.REGISTER)
+    event:Event()
   then
+    // 频控
     for (DimensionType d : DimensionType.values()) {
       for (TimeRange t : TimeRange.values()) {
         int cnt = dimensionService.calculateNum(event, d, t);
@@ -27,7 +32,8 @@ rule "99_register"
               event.setDecisionType(RiskControllConfig.WAIT_FOR);
             } else if (cnt > RiskControllConfig.HIGH_OPERATE_TIMES_BY_SECONDS) {
               event.setDecisionType(RiskControllConfig.REJECT);
-              // TODO 加入黑名单
+              // 添加黑名单
+              blackListService.addBlackRecord(BlackRecordFactory.build(event.getUserName(), d.getValue(), event.getEventType().getValue(), event.getOperateDeviceID(), "每秒频繁注册"));
             }
             break;
           case LAST_MINUTE:
@@ -37,7 +43,8 @@ rule "99_register"
               event.setDecisionType(RiskControllConfig.WAIT_FOR);
             } else if (cnt > RiskControllConfig.HIGH_OPERATE_TIMES_BY_MINUTE) {
               event.setDecisionType(RiskControllConfig.REJECT);
-              // TODO 加入黑名单
+              // 加入黑名单
+              blackListService.addBlackRecord(BlackRecordFactory.build(event.getUserName(), d.getValue(), event.getEventType().getValue(), event.getOperateDeviceID(), "每分频繁注册"));
             }
             break;
           case LAST_HOUR:
@@ -47,13 +54,34 @@ rule "99_register"
               event.setDecisionType(RiskControllConfig.WAIT_FOR);
             } else if (cnt > RiskControllConfig.HIGH_OPERATE_TIMES_BY_HOUR) {
               event.setDecisionType(RiskControllConfig.REJECT);
-              // TODO 加入黑名单
+              // 加入黑名单
+              blackListService.addBlackRecord(BlackRecordFactory.build(event.getUserName(), d.getValue(), event.getEventType().getValue(), event.getOperateDeviceID(), "每小时频繁注册"));
             }
         }
         if (event.getDecisionType() == RiskControllConfig.REJECT) break;
       }
       if (event.getDecisionType() == RiskControllConfig.REJECT) break;
     }
+
+    int num = 0;
+    // 账号绑定数量
+    if (!StringUtils.isEmpty(event.getUserName())) {
+      num = dimensionService.calculateBindNum(event.getUserName(), event.getOperateDeviceID());
+    }
+    if (!StringUtils.isEmpty(event.getTelephoneNumber())) {
+      num = dimensionService.calculateBindNum(event.getTelephoneNumber(), event.getOperateDeviceID());
+    }
+
+    if (num > RiskControllConfig.HIGH_ACCOUNT_BIND_DEVICES) {
+      event.setDecisionType(RiskControllConfig.REJECT);
+      // 加入黑名单
+      blackListService.addBlackRecord(BlackRecordFactory.build(event.getUserName(), !StringUtils.isEmpty(event.getUserName()) ? DimensionType.USERNAME.getValue() : DimensionType.TELEPHONE.getValue(), event.getEventType().getValue(), event.getOperateDeviceID(), "绑定设备数量超过阈值"));
+    } else if (num > RiskControllConfig.MID_ACCOUNT_BIND_DEVICES) {
+      event.setDecisionType(Math.max(event.getDecisionType(), RiskControllConfig.WAIT_FOR));
+    } else if (num > RiskControllConfig.LOW_ACCOUNT_BIND_DEVICES) {
+      event.setDecisionType(Math.max(event.getDecisionType(), RiskControllConfig.HUA_KUAI));
+    }
+
 //    delete(event);
-    System.out.println("hello 99_register!");
+//    System.out.println("hello 99_register!");
 end

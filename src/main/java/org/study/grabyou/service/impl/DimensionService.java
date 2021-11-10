@@ -94,7 +94,7 @@ public class DimensionService {
     if (deviceLimitSha == null) {
       deviceLimitSha = redisDao.scriptLoad(RiskControllConfig.DEVICE_LIMIT_LUA_SCRIPT);
     }
-    return redisDao.evalSha(deviceLimitSha, 1, new String[]{key});
+    return Long.valueOf(redisDao.evalSha(deviceLimitSha, 1, new String[]{key}));
   }
 
   /**

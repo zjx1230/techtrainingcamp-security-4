@@ -9,7 +9,8 @@ package org.study.grabyou.enums;
 public enum DimensionType {
   TELEPHONE(0),
   IP(1),
-  DEVICE_ID(2);
+  DEVICE_ID(2),
+  USERNAME(3);
 
   private int value;
 

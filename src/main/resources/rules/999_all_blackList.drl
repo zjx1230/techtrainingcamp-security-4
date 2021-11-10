@@ -1,6 +1,10 @@
 package rules;
 
 import org.study.grabyou.entity.Event
+import org.study.grabyou.enums.EventType
+import org.study.grabyou.service.impl.BlackListService
+
+global BlackListService blackListService
 
 rule "999_all_blackList"
   salience 999
@@ -8,5 +12,10 @@ rule "999_all_blackList"
   when
     event:Event()
   then
-    System.out.println("hello 999_all_blackList!");
+    EventType eventType = event.getEventType();
+    if (blackListService.isInBlackList(event)) {
+      event.setDecisionType(3);
+//      System.out.println("直接拦截"); 测试使用
+      delete(event);
+    }
 end

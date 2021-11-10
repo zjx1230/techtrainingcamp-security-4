@@ -11,5 +11,16 @@
               #{value},
               #{time},
               #{reason})
-    </insert>
+  </insert>
+  <select id="findBlackRecord" parameterType="org.study.grabyou.entity.Event" resultType="org.study.grabyou.entity.BlackRecord">
+    select * from black_list where `value` = #{operateIp}
+      or `value` = #{operateDeviceID}
+    <if test="userName != null">
+      or username = #{userName}
+    </if>
+    <if test="telephoneNumber != null">
+      or `value` = #{telephoneNumber}
+    </if>
+    limit 1
+  </select>
 </mapper>

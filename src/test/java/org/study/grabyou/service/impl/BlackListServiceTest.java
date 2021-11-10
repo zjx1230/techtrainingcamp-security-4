@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.study.grabyou.enums.DimensionType;
 import org.study.grabyou.enums.EventType;
 import org.study.grabyou.utils.BlackRecordFactory;
+import org.study.grabyou.utils.EventFactory;
 
 /**
  * 测试插入一条黑名单记录
@@ -27,5 +28,11 @@ class BlackListServiceTest {
   void addBlackRecord() {
     blackListService.addBlackRecord(BlackRecordFactory.build("zhangsan", DimensionType.DEVICE_ID.getValue(),
         EventType.REGISTER.getValue(), "chrown", "注册次数过多"));
+  }
+
+  @Test
+  void isInBlackList() {
+    boolean res = blackListService.isInBlackList(EventFactory.build("aaa", EventType.REGISTER, "dad", "das", "Das"));
+    assertEquals(res, false);
   }
 }

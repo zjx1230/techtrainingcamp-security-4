@@ -51,10 +51,10 @@ public class Event {
   /**
    * 事件评分
    */
-  private int score;
+  private int score;  // 暂时未使用
 
   /**
-   * 运行的惩罚力度 0:默认是无，
+   * 运行的惩罚力度 0:默认是无，1:滑块，2：等待一段时间，3：直接拦截
    */
   private int DecisionType;
 
