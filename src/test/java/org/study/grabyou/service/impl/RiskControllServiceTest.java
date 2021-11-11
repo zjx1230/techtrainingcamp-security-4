@@ -40,6 +40,13 @@ class RiskControllServiceTest {
     assertNotEquals(decisionType.get(), 0);
     assertEquals(decisionType.get(), 3);
 
+    int t = 0;
+    // 一小时内注册25次
+    for (int i = 0; i < 25; i ++) {
+      t = riskControllService.analysis("jiaxin", EventType.REGISTER, "456789", "eqew", null);
+    }
+
+    assertEquals(t, 1);
     int decision = 0;
     // 注册设备绑定数限制
     String[] devices = new String[] {"Chrown", "Mac", "Sari", "linux", "centos", "ubuntu", "RedHat", "aaaa", "bbbb", "cccc0"};

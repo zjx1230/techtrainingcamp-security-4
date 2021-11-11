@@ -1,0 +1,11 @@
+{"decisionType":1,"eventType":"REGISTER","id":"b867f607-3135-4a4a-a3a7-53010f03faa3","operateDeviceID":"eqew","operateIp":"456789","operateTime":1636628871405,"score":0,"userName":"jiaxin"}
+{"decisionType":0,"eventType":"REGISTER","id":"f66fcad7-f485-419d-ad07-859391ac94a9","operateDeviceID":"eqew","operateIp":"456789","operateTime":1636628871324,"score":0,"userName":"jiaxin"}
+{"decisionType":0,"eventType":"REGISTER","id":"9895372f-8dc1-4504-bc14-01a2703f9a0d","operateDeviceID":"eqew","operateIp":"456789","operateTime":1636628870536,"score":0,"userName":"jiaxin"}
+{"decisionType":0,"eventType":"REGISTER","id":"7428d948-838a-48ef-ab43-8e41d331c338","operateDeviceID":"eqew","operateIp":"456789","operateTime":1636628871385,"score":0,"userName":"jiaxin"}
+{"decisionType":1,"eventType":"REGISTER","id":"55872be6-7f44-43b1-8003-1eeb3901f7d8","operateDeviceID":"eqew","operateIp":"456789","operateTime":1636628871394,"score":0,"userName":"jiaxin"}
+{"decisionType":2,"eventType":"REGISTER","id":"e87f0eba-bfc5-423c-9c68-5ca23726105b","operateDeviceID":"eqew","operateIp":"456789","operateTime":1636628871431,"score":0,"userName":"jiaxin"}
+{"decisionType":2,"eventType":"REGISTER","id":"92173334-8442-41f9-ba75-17b319f80d28","operateDeviceID":"eqew","operateIp":"456789","operateTime":1636628871442,"score":0,"userName":"jiaxin"}
+{"decisionType":2,"eventType":"REGISTER","id":"6b0a9034-b8fa-42c4-a5f0-7f19096b97dc","operateDeviceID":"eqew","operateIp":"456789","operateTime":1636628871451,"score":0,"userName":"jiaxin"}
+{"decisionType":2,"eventType":"REGISTER","id":"0d5b94d4-4578-4c00-a3a7-4cbffb3009b1","operateDeviceID":"eqew","operateIp":"456789","operateTime":1636628871459,"score":0,"userName":"jiaxin"}
+{"decisionType":2,"eventType":"REGISTER","id":"27283266-2d5c-4b18-b983-fe323b7fd379","operateDeviceID":"eqew","operateIp":"456789","operateTime":1636628871469,"score":0,"userName":"jiaxin"}
+{"decisionType":3,"eventType":"REGISTER","id":"93830d91-4215-4c80-b73a-293936a96ed7","operateDeviceID":"eqew","operateIp":"456789","operateTime":1636628871480,"score":0,"userName":"jiaxin"}
