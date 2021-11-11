@@ -1,0 +1,18 @@
+package rules;
+
+import org.study.grabyou.entity.Event
+import org.study.grabyou.service.impl.UserEventLogService
+import org.study.grabyou.config.RiskControllConfig
+
+rule "0_all_addEvent"
+  salience 0
+//  lock-on-active true
+  when
+    event:Event()
+  then
+    UserEventLogService.insertUserEvent(event);
+    if (event.getDecisionType() == RiskControllConfig.REJECT) {
+      delete(event);
+    }
+//    System.out.println("hello 0_all_addEvent!");
+end
