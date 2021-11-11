@@ -1,4 +1,4 @@
-package org.study.grabyou.service.impl;
+package org.study.grabyou.service.Impl;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;

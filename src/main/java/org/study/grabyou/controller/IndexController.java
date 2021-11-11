@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.study.grabyou.enums.DimensionType;
 import org.study.grabyou.enums.EventType;
-import org.study.grabyou.service.impl.BlackListService;
+import org.study.grabyou.service.Impl.BlackListService;
 import org.study.grabyou.utils.BlackRecordFactory;
 
 /**
