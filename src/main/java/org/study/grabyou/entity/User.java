@@ -1,12 +1,16 @@
 package org.study.grabyou.entity;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
 public class User {
 
   private Integer uid;
   private String username;
   private String password;
   private String phoneNumber;
-  private Integer tag;
+  private Integer tag = 0;
 
   public User(String phone) {
     this.phoneNumber = phone;

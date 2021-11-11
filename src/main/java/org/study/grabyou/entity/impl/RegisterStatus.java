@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.study.grabyou.entity.Status;
 
+@Component
 public class RegisterStatus implements Status {
 
 

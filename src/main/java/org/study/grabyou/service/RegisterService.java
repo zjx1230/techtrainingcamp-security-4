@@ -82,11 +82,15 @@ public class RegisterService {
    * @return 注册状态
    */
   public RegisterStatus insertUser(User user, RegisterStatus status){
-    if(status.getCode() == 0){
+    if(status.getCode() != 0){
       return status;
     }
+    User tmp = new User();
+    System.out.println(tmp);
+    System.out.println(user);
     int result = userDao.insertUser(user);
-    if (result != 0) {
+    System.out.println(result);
+    if (result == 0) {
       status.setErrorMessage(MessageEnum.Wrong.getMessage());
     }
     return status;
