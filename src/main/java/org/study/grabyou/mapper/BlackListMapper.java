@@ -1,6 +1,5 @@
 package org.study.grabyou.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.study.grabyou.entity.BlackRecord;
 import org.study.grabyou.entity.Event;
 
@@ -10,7 +9,6 @@ import org.study.grabyou.entity.Event;
  * @author zjx
  * @since 2021/11/10 上午10:30
  */
-@Mapper
 public interface BlackListMapper {
 
   void insertBlackRecord(BlackRecord blackRecord);

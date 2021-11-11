@@ -2,7 +2,7 @@ package rules;
 
 import org.study.grabyou.entity.Event
 import org.study.grabyou.enums.EventType
-import org.study.grabyou.service.impl.BlackListService
+import org.study.grabyou.service.Impl.BlackListService
 
 global BlackListService blackListService
 

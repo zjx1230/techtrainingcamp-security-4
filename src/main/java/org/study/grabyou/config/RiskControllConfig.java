@@ -3,7 +3,11 @@ package org.study.grabyou.config;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 风控相关的一些配置参数 LOW、MID、HIGH代表惩罚力度 LOW: 触发滑块验证 MID: 过一段时间 HIGH: 拦截
+ * 风控相关的一些配置参数
+ * LOW、MID、HIGH代表惩罚力度
+ * LOW: 触发滑块验证
+ * MID: 过一段时间
+ * HIGH: 拦截
  *
  * @author 张嘉鑫
  * @since 2021/11/7 下午3:29
@@ -12,7 +16,9 @@ import org.springframework.context.annotation.Configuration;
 public class RiskControllConfig {
 
   /**
-   * 计算指定时间段内(一秒钟、一分钟、一小时、ALL) 计算指定维度(手机号、IP、设备ID) 某操作(注册、登录、验证码)的频数
+   * 计算指定时间段内(一秒钟、一分钟、一小时、ALL)
+   * 计算指定维度(手机号、IP、设备ID)
+   * 某操作(注册、登录、验证码)的频数
    */
   public final static String COUNT_LUA_SCRIPT = "if tonumber(ARGV[1])>0 then " +
       "redis.call('ZREMRANGEBYSCORE',KEYS[1],0,ARGV[1]);" +

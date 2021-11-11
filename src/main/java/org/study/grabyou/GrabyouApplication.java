@@ -8,8 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @MapperScan("org.study.grabyou.mapper")
 public class GrabyouApplication {
 
-  public static void main(String[] args) {
-    SpringApplication.run(GrabyouApplication.class, args);
-  }
-
+    public static void main(String[] args) {
+        SpringApplication.run(GrabyouApplication.class, args);
+    }
 }

@@ -1,13 +1,9 @@
-package org.study.grabyou.service.impl;
-
-import static org.junit.jupiter.api.Assertions.*;
+package org.study.grabyou.service.Impl;
 
 import java.io.IOException;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.study.grabyou.enums.EventType;
-import org.study.grabyou.service.impl.UserEventLogService;
 import org.study.grabyou.utils.EventFactory;
 
 /**
@@ -22,8 +18,7 @@ class UserEventLogServiceTest {
   @Test
   void insertUserEvent() throws IOException, InterruptedException {
     for (int i = 0; i < 10; i ++) {
-      UserEventLogService
-          .insertUserEvent(EventFactory.build("zhangsan", EventType.REGISTER, "192.168.0.2", "Mac Book Pro", "12345678910"));
+      UserEventLogService.insertUserEvent(EventFactory.build("zhangsan", EventType.REGISTER, "192.168.0.2", "Mac Book Pro", "12345678910"));
       UserEventLogService.insertUserEvent(EventFactory.build("zhangsan", EventType.LOGIN, "192.168.0.2", "Win10", "12345678910"));
       UserEventLogService.insertUserEvent(EventFactory.build("zhangsan", EventType.VERIFY, "192.168.0.2", "CentOS", "12345678910"));
     }

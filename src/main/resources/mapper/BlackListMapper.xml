@@ -4,17 +4,17 @@
 
 <mapper namespace="org.study.grabyou.mapper.BlackListMapper">
   <insert id="insertBlackRecord" useGeneratedKeys="true" keyProperty="id" parameterType="org.study.grabyou.entity.BlackRecord">
-    INSERT INTO black_list (username, dimension, `type`, `value`, `time`, reason) VALUES
-    (#{username},
-     #{dimension},
-     #{type},
-     #{value},
-     #{time},
-     #{reason})
+        INSERT INTO black_list (username, dimension, `type`, `value`, `time`, reason) VALUES
+              (#{username},
+              #{dimension},
+              #{type},
+              #{value},
+              #{time},
+              #{reason})
   </insert>
   <select id="findBlackRecord" parameterType="org.study.grabyou.entity.Event" resultType="org.study.grabyou.entity.BlackRecord">
     select * from black_list where `value` = #{operateIp}
-    or `value` = #{operateDeviceID}
+      or `value` = #{operateDeviceID}
     <if test="userName != null">
       or username = #{userName}
     </if>

@@ -1,7 +1,7 @@
 package rules;
 
-import org.study.grabyou.service.impl.DimensionService
-import org.study.grabyou.service.impl.BlackListService
+import org.study.grabyou.service.Impl.DimensionService
+import org.study.grabyou.service.Impl.BlackListService
 import org.study.grabyou.config.RiskControllConfig
 import org.study.grabyou.entity.Event
 import org.study.grabyou.enums.EventType
@@ -31,6 +31,7 @@ rule "99_filter"
             } else if (cnt > RiskControllConfig.MID_OPERATE_TIMES_BY_SECONDS && cnt <= RiskControllConfig.HIGH_OPERATE_TIMES_BY_SECONDS) {
               event.setDecisionType(RiskControllConfig.WAIT_FOR);
             } else if (cnt > RiskControllConfig.HIGH_OPERATE_TIMES_BY_SECONDS) {
+              System.out.println("超过秒级频控\n");
               event.setDecisionType(RiskControllConfig.REJECT);
               // 添加黑名单
               blackListService.addBlackRecord(BlackRecordFactory.build(event.getUserName(), d.getValue(), event.getEventType().getValue(), event.getOperateDeviceID(), "每秒频繁注册"));

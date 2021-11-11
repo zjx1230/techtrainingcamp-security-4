@@ -1,4 +1,4 @@
-package org.study.grabyou.service.impl;
+package org.study.grabyou.service.Impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -40,6 +40,13 @@ class RiskControllServiceTest {
     assertNotEquals(decisionType.get(), 0);
     assertEquals(decisionType.get(), 3);
 
+    int t = 0;
+    // 一秒内注册25次
+    for (int i = 0; i < 25; i ++) {
+      t = riskControllService.analysis("zhangsan", EventType.REGISTER, "127.0.0.1", "Chrown", null);
+    }
+
+    assertEquals(t, 3);
     int decision = 0;
     // 注册设备绑定数限制
     String[] devices = new String[] {"Chrown", "Mac", "Sari", "linux", "centos", "ubuntu", "RedHat", "aaaa", "bbbb", "cccc0"};

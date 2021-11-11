@@ -1,8 +1,11 @@
 package org.study.grabyou.utils;
 
 import java.util.Date;
+import java.util.UUID;
 import org.springframework.stereotype.Component;
 import org.study.grabyou.entity.BlackRecord;
+import org.study.grabyou.entity.Event;
+import org.study.grabyou.enums.EventType;
 
 /**
  * 生产黑名单记录工厂
@@ -13,8 +16,7 @@ import org.study.grabyou.entity.BlackRecord;
 @Component
 public class BlackRecordFactory {
 
-  public static BlackRecord build(String userName, int dimension, int type, String device,
-      String reason) {
+  public static BlackRecord build(String userName, int dimension, int type, String device, String reason) {
     BlackRecord blackRecord = new BlackRecord();
     blackRecord.setUsername(userName);
     blackRecord.setTime(new Date());
