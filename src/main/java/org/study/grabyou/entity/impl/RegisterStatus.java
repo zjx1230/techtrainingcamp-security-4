@@ -18,7 +18,7 @@ public class RegisterStatus implements Status {
   @Value("0")
   private int decisionType;
 
-  public RegisterStatus(){
+  public RegisterStatus() {
     message = "注册成功";
   }
 

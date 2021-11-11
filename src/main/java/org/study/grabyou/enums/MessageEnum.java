@@ -12,10 +12,12 @@ public enum MessageEnum {
 
 
   private String message;
+
   MessageEnum(String message) {
     this.message = message;
   }
-  public String getMessage(){
+
+  public String getMessage() {
     return message;
   }
 }

@@ -1,4 +1,5 @@
 package org.study.grabyou.entity;
+
 import java.sql.Timestamp;
 
 public class ApplyBean {

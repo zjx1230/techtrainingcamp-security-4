@@ -20,16 +20,17 @@ public class ApplyController {
   }
 
   @RequestMapping(value = "/doApply", method = RequestMethod.POST)
-  public String apply(String phonenum,String ip,String deviceid) {
+  public String apply(String phonenum, String ip, String deviceid) {
     //获取验证码
-    String code = applyService.getCode(phonenum,ip,deviceid);
+    String code = applyService.getCode(phonenum, ip, deviceid);
     //输出以调试
     System.out.println(code);
     return "verify";
   }
+
   @RequestMapping(value = "/doVerify", method = RequestMethod.POST)
-  public String verify(String phonenum,String ip,String deviceid,String code) {
-    boolean res = applyService.verifyCode(phonenum,ip,deviceid,code);
+  public String verify(String phonenum, String ip, String deviceid, String code) {
+    boolean res = applyService.verifyCode(phonenum, ip, deviceid, code);
     if (res) {
       return "success";
     } else {

@@ -15,6 +15,7 @@ public class RegisterService {
 
   /**
    * 根据用户名判断是否存在相同用户名的人
+   *
    * @param user
    * @param status
    * @return
@@ -32,6 +33,7 @@ public class RegisterService {
 
   /**
    * 根据用户手机号判断是否存在相同手机号的人
+   *
    * @param user
    * @param status
    * @return
@@ -49,13 +51,14 @@ public class RegisterService {
 
   /**
    * 根据判断指标来更新注册状态
+   *
    * @param decisiontype
    * @param status
    * @return
    */
   public RegisterStatus judgeDecisionType(int decisiontype, RegisterStatus status) {
     status.setDecisionType(decisiontype);
-    switch (decisiontype){
+    switch (decisiontype) {
       case 0:
         break;
       case 1:
@@ -75,21 +78,17 @@ public class RegisterService {
   }
 
   /**
-   * 如果 status.code == 0，尝试进行用户注册。
-   * 如果注册失败，则将注册状态标记失败。
-   * @param user 待注册的用户
+   * 如果 status.code == 0，尝试进行用户注册。 如果注册失败，则将注册状态标记失败。
+   *
+   * @param user   待注册的用户
    * @param status 注册状态
    * @return 注册状态
    */
-  public RegisterStatus insertUser(User user, RegisterStatus status){
-    if(status.getCode() != 0){
+  public RegisterStatus insertUser(User user, RegisterStatus status) {
+    if (status.getCode() != 0) {
       return status;
     }
-    User tmp = new User();
-    System.out.println(tmp);
-    System.out.println(user);
     int result = userDao.insertUser(user);
-    System.out.println(result);
     if (result == 0) {
       status.setErrorMessage(MessageEnum.Wrong.getMessage());
     }

@@ -8,16 +8,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.study.grabyou.entity.User;
 import org.study.grabyou.entity.impl.RegisterStatus;
+import org.study.grabyou.enums.EventType;
 import org.study.grabyou.service.ApplyService;
-//import org.study.grabyou.service.IRiskControllService;
+import org.study.grabyou.service.IRiskControllService;
 import org.study.grabyou.service.RegisterService;
 import org.study.grabyou.utils.ServletUtil;
 
 @Controller
 public class RegisterController {
 
-  //  @Autowired
-//  IRiskControllService riskControllService;
+  @Autowired
+  IRiskControllService riskControllService;
   @Autowired
   ApplyService applyService;
   @Autowired
@@ -32,17 +33,20 @@ public class RegisterController {
 
   /**
    * 前端填入用户名、密码、手机号、验证码来申请注册
+   *
    * @param username 用户名
    * @param password 密码
-   * @param phone 手机号
-   * @param code 验证码
+   * @param phone    手机号
+   * @param code     验证码
    * @return 注册状态
    */
   @PostMapping(value = "/register")
   @ResponseBody
-  public RegisterStatus getVerificationCode(String username, String password, String phone, String code) {
+  public RegisterStatus getRegisterStatus(String username, String password, String phone,
+      String code) {
     String ip = ServletUtil.getIp();
     String device = ServletUtil.getFullDeviceID();
+    System.out.println(ip + " " + device);
     User user = new User(phone, username, password);
     RegisterStatus status = new RegisterStatus();
     // 1 - 生成message
@@ -61,8 +65,11 @@ public class RegisterController {
     status.setExpireTime(10);
 
     // 3 - DecisionType
-//    int decisiontype = riskControllService.analysis(username, EventType.REGISTER, ip, device, phone);
-//    registerService.judgeDecisionType(decisiontype, status);
+    int decisiontype = riskControllService
+        .analysis(username, EventType.REGISTER, ip, device, phone);
+    System.out.println(username+" "+EventType.REGISTER +" "+ip+" "+ device+" "+phone);
+    System.out.println(decisiontype);
+    registerService.judgeDecisionType(decisiontype, status);
 
     registerService.insertUser(user, status);
 
@@ -71,17 +78,18 @@ public class RegisterController {
 
   /**
    * 根据手机号发送验证码。验证码会在服务器控制台输出，并返回到前端通过alert展示（当作通过短信发送到手机上）。
+   *
    * @param phone 需要接受验证码的手机号
    * @return 验证码
    */
   @PostMapping(value = "/sendCode")
   @ResponseBody
-  public String sendCode(String phone){
+  public String sendCode(String phone) {
     String ip = ServletUtil.getIp();
     String device = ServletUtil.getFullDeviceID();
-    String code = applyService.getCode(phone,ip,device);
+    String code = applyService.getCode(phone, ip, device);
     System.out.println("==================");
-    System.out.println(phone+"对应的验证码为"+code+"!!!!");
+    System.out.println(phone + "对应的验证码为" + code + "!!!!");
     System.out.println("==================");
     return code;
   }

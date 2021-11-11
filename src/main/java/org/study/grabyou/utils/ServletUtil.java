@@ -39,6 +39,7 @@ public class ServletUtil {
 
   /**
    * 获得完全的设备ID，即 User-Agent
+   *
    * @return 设备ID
    */
   public static String getFullDeviceID() {
@@ -48,6 +49,7 @@ public class ServletUtil {
 
   /**
    * 获得简版的设备ID
+   *
    * @return 设备ID
    */
   public static String getDeviceID() {
@@ -85,6 +87,7 @@ public class ServletUtil {
 
   /**
    * 获取ip
+   *
    * @return String 类型的 IP 地址
    */
   public static String getIp() {

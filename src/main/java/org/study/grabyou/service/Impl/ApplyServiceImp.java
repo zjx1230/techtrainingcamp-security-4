@@ -1,4 +1,4 @@
-package org.study.grabyou.service.Impl;
+package org.study.grabyou.service.impl;
 
 import java.util.GregorianCalendar;
 import java.util.Random;
@@ -32,7 +32,6 @@ public class ApplyServiceImp implements ApplyService {
     date = calendar.getTime();
     Timestamp ExpireTime = new Timestamp(date.getTime());
 
-
     ApplyBean applyBean = new ApplyBean();
     applyBean.setCode(code);
     applyBean.setPhonenum(phonenum);
@@ -61,7 +60,7 @@ public class ApplyServiceImp implements ApplyService {
   public Status verifyCode(String phonenum, String ip, String deviceid, String code,
       Status status) {
     boolean verify = verifyCode(phonenum, ip, deviceid, code);
-    if(!verify){
+    if (!verify) {
       status.setErrorMessage(MessageEnum.WrongCode.getMessage());
     }
     return status;
