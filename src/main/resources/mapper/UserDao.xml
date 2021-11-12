@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.study.grabyou.mapper.UserDao">
+  <select id="selectUserByName" parameterType="java.lang.String"
+    resultType="org.study.grabyou.entity.User">
+    select uid, username, password, phoneNumber, tag
+    from accounts
+    where accounts.username = #{username}
+  </select>
+  <select id="selectUserByNameAndPassword" parameterType="org.study.grabyou.entity.User"
+    resultType="org.study.grabyou.entity.User">
+    select uid, username, password, phoneNumber, tag
+    from accounts 
+    where accounts.username = #{username} and accounts.password = #{password}
+  </select>
+  <select id="selectUserByPhoneNumber" parameterType="java.lang.String"
+    resultType="org.study.grabyou.entity.User">
+    select uid, username, password, phoneNumber, tag 
+    from accounts
+    where phoneNumber = #{phoneNumber}
+  </select>
+</mapper>
