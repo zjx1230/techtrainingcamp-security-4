@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.study.grabyou.entity.Status;
 
+/**
+ * 注册时状态
+ */
 @Component
 public class RegisterStatus implements Status {
 
@@ -72,6 +75,10 @@ public class RegisterStatus implements Status {
     this.decisionType = decisionType;
   }
 
+  /**
+   * 设置错误信息。将code直接更换为1，标注注册失败，并添加注册信息
+   * @param message
+   */
   @Override
   public void setErrorMessage(String message) {
     this.code = 1;

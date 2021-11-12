@@ -1,5 +1,8 @@
 package org.study.grabyou.entity;
 
+/**
+ * 注册、登录、登出、注销时的状态，即返回内容
+ */
 public interface Status {
 
   int getCode();

@@ -1,6 +1,8 @@
 package org.study.grabyou.controller;
 
 import javax.servlet.http.HttpSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +13,7 @@ import org.study.grabyou.entity.impl.RegisterStatus;
 import org.study.grabyou.enums.EventType;
 import org.study.grabyou.service.ApplyService;
 import org.study.grabyou.service.IRiskControllService;
+import org.study.grabyou.service.Impl.RiskControllService;
 import org.study.grabyou.service.RegisterService;
 import org.study.grabyou.utils.ServletUtil;
 
@@ -18,13 +21,18 @@ import org.study.grabyou.utils.ServletUtil;
 public class RegisterController {
 
   @Autowired
-  IRiskControllService riskControllService;
+  RiskControllService riskControllService;
   @Autowired
   ApplyService applyService;
   @Autowired
   RegisterService registerService;
 
+  private static Logger logger = LoggerFactory.getLogger(RegisterController.class);
 
+  /**
+   * 请求 /register 网页
+   * @return
+   */
   @GetMapping(value = "/register")
   public String signupPage() {
     return "register";
@@ -32,7 +40,8 @@ public class RegisterController {
 
 
   /**
-   * 前端填入用户名、密码、手机号、验证码来申请注册
+   * 前端在/register网页中，填入用户名、密码、手机号、验证码后，点击submit请求后，后端执行函数
+   * 后端根据前端传来的数据，返回注册状态，标识能否进行注册
    *
    * @param username 用户名
    * @param password 密码
@@ -46,7 +55,6 @@ public class RegisterController {
       String code) {
     String ip = ServletUtil.getIp();
     String device = ServletUtil.getFullDeviceID();
-    System.out.println(ip + " " + device);
     User user = new User(phone, username, password);
     RegisterStatus status = new RegisterStatus();
     // 1 - 生成message
@@ -56,28 +64,25 @@ public class RegisterController {
     registerService.judgeUserByPhone(user, status);
     // 1.3 判断验证码问题
 //    applyService.verifyCode(phone, ip, device, code, status);
-
     // 2 - sessionID & ExpireTime
     HttpSession httpSession = ServletUtil.getSession();
     String sessionID = httpSession.getId();
     httpSession.setMaxInactiveInterval(10);
     status.setSessionID(sessionID);
     status.setExpireTime(10);
-
     // 3 - DecisionType
-    int decisiontype = riskControllService
-        .analysis(username, EventType.REGISTER, ip, device, phone);
-    System.out.println(username+" "+EventType.REGISTER +" "+ip+" "+ device+" "+phone);
+    System.out.println("descisionType参数："+username+" "+EventType.REGISTER +" "+ip+" "+ device+" "+phone);
+    int decisiontype = riskControllService.analysis(username, EventType.REGISTER, ip, device, phone);
     System.out.println(decisiontype);
     registerService.judgeDecisionType(decisiontype, status);
 
     registerService.insertUser(user, status);
-
     return status;
   }
 
   /**
-   * 根据手机号发送验证码。验证码会在服务器控制台输出，并返回到前端通过alert展示（当作通过短信发送到手机上）。
+   * 前端点击发送验证码后，会将手机号传到后端
+   * 后端产生验证码，验证码会在服务器控制台输出，并返回到前端通过alert展示（当作通过短信发送到手机上）。
    *
    * @param phone 需要接受验证码的手机号
    * @return 验证码

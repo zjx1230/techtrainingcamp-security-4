@@ -15,9 +15,10 @@ public class RegisterService {
 
   /**
    * 根据用户名判断是否存在相同用户名的人
+   * 存在，则注册状态更改为注册失败，并添加错误信息
    *
-   * @param user
-   * @param status
+   * @param user 用户
+   * @param status 注册状态
    * @return
    */
   public RegisterStatus judgeUserByName(User user, RegisterStatus status) {
@@ -33,10 +34,11 @@ public class RegisterService {
 
   /**
    * 根据用户手机号判断是否存在相同手机号的人
+   * 存在，则注册状态更改为注册失败，并添加错误信息
    *
-   * @param user
-   * @param status
-   * @return
+   * @param user 用户
+   * @param status 注册状态
+   * @return 注册状态
    */
   public RegisterStatus judgeUserByPhone(User user, RegisterStatus status) {
     // 根据手机号搜索用户，判断是否有相同的手机号
