@@ -9,7 +9,7 @@
     select *
     from accounts;
   </select>
-  <select id="selectUserByIdOrName" parameterType="org.study.grabyou.entity.User"
+  <select id="selectUserByNameOrPhone" parameterType="org.study.grabyou.entity.User"
     resultType="org.study.grabyou.entity.User">
     select uid, username, password, phoneNumber, tag from accounts
     <where>
@@ -25,4 +25,15 @@
     insert into accounts(username, password, phoneNumber, tag)
     values (#{username}, #{password}, #{phoneNumber}, #{tag});
   </insert>
+  <delete id="deleteUserByNameOrPhone" parameterType="org.study.grabyou.entity.User">
+    delete * from accounts
+    <where>
+      <if test="'username' != null">
+        or username = #{username}
+      </if>
+      <if test="'phoneNumber' != null">
+        or phoneNumber = #{phoneNumber}
+      </if>
+    </where>
+  </delete>
 </mapper>

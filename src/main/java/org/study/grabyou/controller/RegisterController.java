@@ -14,7 +14,7 @@ import org.study.grabyou.enums.EventType;
 import org.study.grabyou.service.ApplyService;
 import org.study.grabyou.service.IRiskControllService;
 import org.study.grabyou.service.Impl.RiskControllService;
-import org.study.grabyou.service.RegisterService;
+import org.study.grabyou.service.UserAccessService;
 import org.study.grabyou.utils.ServletUtil;
 
 @Controller
@@ -25,7 +25,7 @@ public class RegisterController {
   @Autowired
   ApplyService applyService;
   @Autowired
-  RegisterService registerService;
+  UserAccessService registerService;
 
   private static Logger logger = LoggerFactory.getLogger(RegisterController.class);
 
@@ -54,7 +54,8 @@ public class RegisterController {
   public RegisterStatus getRegisterStatus(String username, String password, String phone,
       String code) {
     String ip = ServletUtil.getIp();
-    String device = ServletUtil.getFullDeviceID();
+    String device = ServletUtil.getDeviceID();
+//    String device = ServletUtil.getFullDeviceID();
     User user = new User(phone, username, password);
     RegisterStatus status = new RegisterStatus();
     // 1 - 生成message
@@ -67,15 +68,13 @@ public class RegisterController {
     // 2 - sessionID & ExpireTime
     HttpSession httpSession = ServletUtil.getSession();
     String sessionID = httpSession.getId();
-    httpSession.setMaxInactiveInterval(10);
+    httpSession.setMaxInactiveInterval(60); //60秒
     status.setSessionID(sessionID);
     status.setExpireTime(10);
     // 3 - DecisionType
-    System.out.println("descisionType参数："+username+" "+EventType.REGISTER +" "+ip+" "+ device+" "+phone);
     int decisiontype = riskControllService.analysis(username, EventType.REGISTER, ip, device, phone);
-    System.out.println(decisiontype);
     registerService.judgeDecisionType(decisiontype, status);
-
+    // 4 - 尝试对用户进行注册
     registerService.insertUser(user, status);
     return status;
   }

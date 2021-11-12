@@ -1,0 +1,13 @@
+{"decisionType":0,"eventType":"REGISTER","id":"608cd9c9-09df-41c1-a88f-239de16b19c0","operateDeviceID":"Chrown1","operateIp":"127.0.1.1","operateTime":1636677504123,"score":0,"userName":"zhangsan21"}
+{"decisionType":2,"eventType":"REGISTER","id":"04c74190-1d4d-4c1c-bd5f-b1389967c6b9","operateDeviceID":"Chrown2","operateIp":"127.0.1.2","operateTime":1636677504201,"score":0,"userName":"zhangsan22"}
+{"decisionType":1,"eventType":"REGISTER","id":"4da61b08-d357-40a1-bb9b-7b66e304a6bd","operateDeviceID":"Chrown2","operateIp":"127.0.1.2","operateTime":1636677504162,"score":0,"userName":"zhangsan22"}
+{"decisionType":0,"eventType":"REGISTER","id":"a192b84e-8fa5-4d4e-b0fa-842b7a1431b5","operateDeviceID":"Chrown2","operateIp":"127.0.1.2","operateTime":1636677504144,"score":0,"userName":"zhangsan22"}
+{"decisionType":2,"eventType":"REGISTER","id":"ea2c7449-863c-4705-b911-6a6bfe469aa6","operateDeviceID":"Chrown2","operateIp":"127.0.1.2","operateTime":1636677504218,"score":0,"userName":"zhangsan22"}
+{"decisionType":1,"eventType":"REGISTER","id":"bb4ff2ef-00a3-4288-a551-48e126e2c506","operateDeviceID":"Chrown2","operateIp":"127.0.1.2","operateTime":1636677504181,"score":0,"userName":"zhangsan22"}
+{"decisionType":0,"eventType":"REGISTER","id":"d4911d65-0a0e-42df-9a57-7053a7dd56ed","operateDeviceID":"Chrown1","operateIp":"127.0.1.1","operateTime":1636677503330,"score":0,"userName":"zhangsan21"}
+{"decisionType":2,"eventType":"REGISTER","id":"e9f6b8ca-4ea9-4eaf-8ee3-a35148380f55","operateDeviceID":"Chrown2","operateIp":"127.0.1.2","operateTime":1636677504238,"score":0,"userName":"zhangsan22"}
+{"decisionType":2,"eventType":"REGISTER","id":"48d884f7-bad2-4812-8769-7580d22dfe83","operateDeviceID":"Chrown3","operateIp":"127.0.1.3","operateTime":1636677504263,"score":0,"userName":"zhangsan23"}
+{"decisionType":2,"eventType":"REGISTER","id":"d92cc602-e4a6-4011-a418-dda9cf2b0b7f","operateDeviceID":"Chrown3","operateIp":"127.0.1.3","operateTime":1636677504282,"score":0,"userName":"zhangsan23"}
+{"decisionType":3,"eventType":"REGISTER","id":"ac5ad632-db83-49e1-a70f-4748f08a8125","operateDeviceID":"Chrown3","operateIp":"127.0.1.3","operateTime":1636677504299,"score":0,"userName":"zhangsan23"}
+{"decisionType":3,"eventType":"REGISTER","id":"9071d882-6d5d-4288-b1d7-5b9c82435468","operateDeviceID":"Chrown4","operateIp":"127.0.1.4","operateTime":1636677504330,"score":0,"userName":"zhangsan24"}
+{"decisionType":3,"eventType":"REGISTER","id":"9469f192-93b3-481f-bbd6-82e9e035cd9e","operateDeviceID":"Chrown","operateIp":"127.0.1.5","operateTime":1636677504369,"score":0,"userName":"zhangsan25"}

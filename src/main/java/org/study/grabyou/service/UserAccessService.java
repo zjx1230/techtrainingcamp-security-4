@@ -2,13 +2,14 @@ package org.study.grabyou.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.study.grabyou.entity.Status;
 import org.study.grabyou.entity.impl.RegisterStatus;
 import org.study.grabyou.entity.User;
 import org.study.grabyou.enums.MessageEnum;
 import org.study.grabyou.mapper.UserDao;
 
 @Service
-public class RegisterService {
+public class UserAccessService {
 
   @Autowired
   private UserDao userDao;
@@ -21,11 +22,11 @@ public class RegisterService {
    * @param status 注册状态
    * @return
    */
-  public RegisterStatus judgeUserByName(User user, RegisterStatus status) {
+  public Status judgeUserByName(User user, Status status) {
     // 根据用户名搜索用户，判断是否有相同的用户名
     User searchUser = new User();
     searchUser.setUsername(user.getUsername());
-    Object res = userDao.selectUserByIdOrName(searchUser);
+    Object res = userDao.selectUserByNameOrPhone(searchUser);
     if (res != null) {
       status.setErrorMessage(MessageEnum.SameUsername.getMessage());
     }
@@ -40,11 +41,11 @@ public class RegisterService {
    * @param status 注册状态
    * @return 注册状态
    */
-  public RegisterStatus judgeUserByPhone(User user, RegisterStatus status) {
+  public Status judgeUserByPhone(User user, Status status) {
     // 根据手机号搜索用户，判断是否有相同的手机号
     User searchUser = new User();
     searchUser.setPhoneNumber(user.getPhoneNumber());
-    Object res = userDao.selectUserByIdOrName(searchUser);
+    Object res = userDao.selectUserByNameOrPhone(searchUser);
     if (res != null) {
       status.setErrorMessage(MessageEnum.SamePhone.getMessage());
     }
@@ -58,7 +59,7 @@ public class RegisterService {
    * @param status
    * @return
    */
-  public RegisterStatus judgeDecisionType(int decisiontype, RegisterStatus status) {
+  public Status judgeDecisionType(int decisiontype, Status status) {
     status.setDecisionType(decisiontype);
     switch (decisiontype) {
       case 0:
@@ -86,11 +87,28 @@ public class RegisterService {
    * @param status 注册状态
    * @return 注册状态
    */
-  public RegisterStatus insertUser(User user, RegisterStatus status) {
+  public Status insertUser(User user, Status status) {
     if (status.getCode() != 0) {
       return status;
     }
     int result = userDao.insertUser(user);
+    if (result == 0) {
+      status.setErrorMessage(MessageEnum.Wrong.getMessage());
+    }
+    return status;
+  }
+
+  /**
+   * 如果 status.code == 0，尝试进行用户注销。 如果注销失败，则将注销状态标记失败。
+   * @param user
+   * @param status
+   * @return
+   */
+  public Status deleteUser(User user, Status status){
+    if (status.getCode() != 0) {
+      return status;
+    }
+    int result = userDao.deleteUserByNameOrPhone(user);
     if (result == 0) {
       status.setErrorMessage(MessageEnum.Wrong.getMessage());
     }

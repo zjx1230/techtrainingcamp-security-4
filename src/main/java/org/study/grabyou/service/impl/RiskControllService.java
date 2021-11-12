@@ -109,7 +109,6 @@ public class RiskControllService implements IRiskControllService {
       logger.error("参数错误，" + "ip: " + ip + ", deviceID: " + deviceID);
       return -1;
     }
-
     Event event = EventFactory.build(userName, type, ip, deviceID, telephone);
     this.kieSession.execute(event);
     return event.getDecisionType();

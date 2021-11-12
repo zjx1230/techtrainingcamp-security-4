@@ -19,9 +19,11 @@ public interface UserDao {
 
   Integer updateUser(User user);
 
+  Integer deleteUserByNameOrPhone(User user);
+
   User selectUser(User user);
 
   List<User> selectAllUser();
 
-  User selectUserByIdOrName(User user);
+  User selectUserByNameOrPhone(User user);
 }

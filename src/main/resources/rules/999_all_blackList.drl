@@ -15,7 +15,7 @@ rule "999_all_blackList"
     EventType eventType = event.getEventType();
     if (blackListService.isInBlackList(event)) {
       event.setDecisionType(3);
-//      System.out.println("直接拦截"); 测试使用
+      // System.out.println("直接拦截"); //测试使用
       delete(event);
     }
 end

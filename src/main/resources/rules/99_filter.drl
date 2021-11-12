@@ -19,12 +19,12 @@ rule "99_filter"
   when
     event:Event()
   then
-    System.out.println("111");
+    //System.out.println("111");
     // 频控
     for (DimensionType d : DimensionType.values()) {
       for (TimeRange t : TimeRange.values()) {
         int cnt = dimensionService.calculateNum(event, d, t);
-        System.out.println("d: "+d + " t:" + t +" cnt:" + cnt);
+        //System.out.println("d: "+d + " t:" + t +" cnt:" + cnt);
         switch (t) {
           case LAST_SECOND:
             if (cnt > RiskControllConfig.LOW_OPERATE_TIMES_BY_SECONDS && cnt <= RiskControllConfig.MID_OPERATE_TIMES_BY_SECONDS) {

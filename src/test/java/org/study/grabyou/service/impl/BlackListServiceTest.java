@@ -1,4 +1,4 @@
-package org.study.grabyou.service.Impl;
+package org.study.grabyou.service.impl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.study.grabyou.enums.DimensionType;
 import org.study.grabyou.enums.EventType;
+import org.study.grabyou.service.Impl.BlackListService;
 import org.study.grabyou.utils.BlackRecordFactory;
 import org.study.grabyou.utils.EventFactory;
 
