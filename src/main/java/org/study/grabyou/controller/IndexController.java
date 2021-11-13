@@ -2,28 +2,34 @@ package org.study.grabyou.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.study.grabyou.enums.DimensionType;
-import org.study.grabyou.enums.EventType;
-import org.study.grabyou.service.Impl.BlackListService;
-import org.study.grabyou.utils.BlackRecordFactory;
+import org.springframework.web.servlet.ModelAndView;
+import org.study.grabyou.service.UserAccessService;
+import org.study.grabyou.utils.ServletUtil;
 
-/**
- * 测试首页
- *
- * @author zjx
- * @since 2021/11/5 上午10:41
- */
-@RestController
 public class IndexController {
-
   @Autowired
-  private BlackListService blackListService;
+  private UserAccessService userAccessService;
 
-  @GetMapping("/index")
-  public String index() {
-    blackListService.addBlackRecord(BlackRecordFactory.build("zhangsan", DimensionType.DEVICE_ID.getValue(),
-        EventType.REGISTER.getValue(), "chrown", "注册次数过多"));
-    return "Hello, 字节！";
+  /**
+   * 用户信息展示 - 根据sessionID查看用户信息
+   * @return
+   */
+  @GetMapping("/user")
+  public ModelAndView user(){
+    String sessionID = ServletUtil.getSessionID();
+    ModelAndView mv = new ModelAndView();
+    mv.addObject(userAccessService.getUser(sessionID));
+    mv.setViewName("user");
+    return mv;
   }
+
+  /**
+   * 主界面
+   * @return
+   */
+  @GetMapping("/index")
+  public String index(){
+    return "index";
+  }
+
 }

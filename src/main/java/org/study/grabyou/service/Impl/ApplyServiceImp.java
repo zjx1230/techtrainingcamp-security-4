@@ -68,12 +68,12 @@ public class ApplyServiceImp implements ApplyService {
   @Override
   public String setCode(String phonenum, String ip, String deviceid) {
     String key = createKey(phonenum, ip, deviceid);
-    String codeTmp = redisDao.getUserCode(key);
+    String codeTmp = redisDao.getValue(key);
     String code = "";
     if(codeTmp == null){
       Random ran = new Random(new Date().getTime());
-      code = String.valueOf(ran.nextInt(1000000));
-      redisDao.saveUserCode(key, code, 1, TimeUnit.MINUTES);
+      code = String.format("%06d", ran.nextInt(1000000));
+      redisDao.saveKeyValue(key, code, 5, TimeUnit.MINUTES);
     }
     return code;
   }
@@ -91,7 +91,7 @@ public class ApplyServiceImp implements ApplyService {
   @Override
   public int verifyCode(String phone, String ip, String device, String code) {
     String key = createKey(phone, ip, device);
-    String codeTmp = redisDao.getUserCode(key);
+    String codeTmp = redisDao.getValue(key);
     return getMatchStatus(codeTmp, code);
   }
 

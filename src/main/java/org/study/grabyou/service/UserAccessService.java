@@ -1,7 +1,9 @@
 package org.study.grabyou.service;
 
+import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.study.grabyou.dao.RedisDao;
 import org.study.grabyou.entity.Status;
 import org.study.grabyou.entity.impl.RegisterStatus;
 import org.study.grabyou.entity.User;
@@ -13,6 +15,8 @@ public class UserAccessService {
 
   @Autowired
   private UserDao userDao;
+  @Autowired
+  private RedisDao redisDao;
 
   /**
    * 根据用户名判断是否存在相同用户名的人
@@ -98,21 +102,46 @@ public class UserAccessService {
     return status;
   }
 
+
+  /**
+   * 用户登出即为session注销，因此从redis中删除对应session
+   * @param sessionID
+   */
+  public void logoutUser(String sessionID, Status status){
+    redisDao.deleteKeyValue(sessionID);
+  }
+
+
   /**
    * 如果 status.code == 0，尝试进行用户注销。 如果注销失败，则将注销状态标记失败。
-   * @param user
-   * @param status
-   * @return
+   * @param sessionID sessionID
+   * @param status 状态
+   * @return 状态
    */
-  public Status deleteUser(User user, Status status){
-    if (status.getCode() != 0) {
-      return status;
-    }
-    int result = userDao.deleteUserByNameOrPhone(user);
-    if (result == 0) {
+  public Status deleteUser(String sessionID, Status status){
+    String value = redisDao.getValue(sessionID);
+    User user = null;
+    try{
+      user = (User)JSON.parse(value);
+      int result = userDao.deleteUserByNameOrPhone(user);
+      if (result == 0) {
+        status.setErrorMessage(MessageEnum.Wrong.getMessage());
+      }else{
+        logoutUser(sessionID, status);
+      }
+    } catch (Exception e){
       status.setErrorMessage(MessageEnum.Wrong.getMessage());
     }
     return status;
   }
 
+  /**
+   * 根据 sessionID 从缓存中获取用户信息
+   * @param sessionID sessionID
+   * @return 返回用户信息
+   */
+  public User getUser(String sessionID){
+    String value = redisDao.getValue(sessionID);
+    return (User)JSON.parse(value);
+  }
 }

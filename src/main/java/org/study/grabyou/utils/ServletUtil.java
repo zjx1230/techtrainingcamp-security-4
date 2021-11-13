@@ -113,4 +113,12 @@ public class ServletUtil {
     return !(null == ip || 0 == ip.length() || "unknown".equalsIgnoreCase(ip));
   }
 
+  /**
+   * 获取 SessionId
+   * @return SessionId
+   */
+  public static String getSessionID(){
+    return getSession().getId();
+  }
+
 }

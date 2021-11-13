@@ -180,7 +180,7 @@ public class RedisDao {
    * @param period 存活时间
    * @param unit 时间单位
    */
-  public void saveUserCode(String key, String value, int period, TimeUnit unit){
+  public void saveKeyValue(String key, String value, int period, TimeUnit unit){
     redisTemplate.opsForValue().set(key, value, period, unit);
   }
 
@@ -189,8 +189,16 @@ public class RedisDao {
    * @param key key 值
    * @return value 值
    */
-  public String getUserCode(String key){
+  public String getValue(String key){
     return (String) redisTemplate.opsForValue().get(key);
   }
 
+
+  /**
+   * 删除数据
+   * @param key key 值
+   */
+  public void deleteKeyValue(String key){
+    redisTemplate.delete(key);
+  }
 }

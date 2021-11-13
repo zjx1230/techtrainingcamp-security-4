@@ -1,18 +1,12 @@
 package org.study.grabyou.entity.impl;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.study.grabyou.entity.Status;
 
-/**
- * 注册时状态
- */
-@Component
-public class RegisterStatus extends Status {
+public class DeregisterStatus extends Status {
 
-  public RegisterStatus(){
+  public DeregisterStatus(){
     super();
-    message = "注册成功";
+    message = "注销成功";
   }
 
   @Override

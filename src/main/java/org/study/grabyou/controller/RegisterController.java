@@ -1,5 +1,7 @@
 package org.study.grabyou.controller;
 
+import com.alibaba.fastjson.JSON;
+import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,11 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.study.grabyou.dao.RedisDao;
 import org.study.grabyou.entity.User;
 import org.study.grabyou.entity.impl.RegisterStatus;
 import org.study.grabyou.enums.EventType;
 import org.study.grabyou.service.ApplyService;
-import org.study.grabyou.service.IRiskControllService;
 import org.study.grabyou.service.Impl.RiskControllService;
 import org.study.grabyou.service.UserAccessService;
 import org.study.grabyou.utils.ServletUtil;
@@ -21,13 +23,14 @@ import org.study.grabyou.utils.ServletUtil;
 public class RegisterController {
 
   @Autowired
-  RiskControllService riskControllService;
+  private RiskControllService riskControllService;
   @Autowired
-  ApplyService applyService;
+  private ApplyService applyService;
   @Autowired
-  UserAccessService registerService;
+  private UserAccessService userAccessService;
+  @Autowired
+  private RedisDao redisDao;
 
-  private static Logger logger = LoggerFactory.getLogger(RegisterController.class);
 
   /**
    * 请求 /register 网页
@@ -55,27 +58,34 @@ public class RegisterController {
       String code) {
     String ip = ServletUtil.getIp();
     String device = ServletUtil.getDeviceID();
-//    String device = ServletUtil.getFullDeviceID();
+    //  String device = ServletUtil.getFullDeviceID();
     User user = new User(phone, username, password);
     RegisterStatus status = new RegisterStatus();
-    // 1 - 生成message
-    // 1.1 判断是否存在用户名相同的人
-    registerService.judgeUserByName(user, status);
-    // 1.2 判断是否存在手机相同的人
-    registerService.judgeUserByPhone(user, status);
-    // 1.3 判断验证码问题
-//    applyService.verifyCode(phone, ip, device, code, status);
-    // 2 - sessionID & ExpireTime
+    // 1 - DecisionType
+    int decisiontype = riskControllService.analysis(username, EventType.REGISTER, ip, device, phone);
+    userAccessService.judgeDecisionType(decisiontype, status);
+    // 风控直接停止下一步操作，更新情况
+    if(decisiontype > 0){
+      return status;
+    }
+    // 2 - 生成message
+    // 2.1 判断是否存在用户名相同的人
+    userAccessService.judgeUserByName(user, status);
+    // 2.2 判断是否存在手机相同的人
+    userAccessService.judgeUserByPhone(user, status);
+    // 2.3 判断验证码问题
+    applyService.verifyCode(phone, ip, device, code, status);
+    // 3 - sessionID & ExpireTime
     HttpSession httpSession = ServletUtil.getSession();
     String sessionID = httpSession.getId();
-    httpSession.setMaxInactiveInterval(60); //60秒
+    httpSession.setMaxInactiveInterval(60*5); //5分钟
     status.setSessionID(sessionID);
     status.setExpireTime(10);
-    // 3 - DecisionType
-    int decisiontype = riskControllService.analysis(username, EventType.REGISTER, ip, device, phone);
-    registerService.judgeDecisionType(decisiontype, status);
     // 4 - 尝试对用户进行注册
-    registerService.insertUser(user, status);
+    userAccessService.insertUser(user, status);
+    if(status.getCode() == 0){
+      redisDao.saveKeyValue(ServletUtil.getSessionID(), JSON.toJSONString(user), 5, TimeUnit.MINUTES);
+    }
     return status;
   }
 }
