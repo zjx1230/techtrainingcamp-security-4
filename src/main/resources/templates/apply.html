@@ -5,12 +5,68 @@
   <title>apply</title>
 </head>
 <body>
-<form role="form" action="/doApply" method="post">
-  手机号：<input type="text" id="phonenum" name="phonenum"> <br>
-  IP：<input type="text" id="ip" name="ip"> <br>
-  设备号：<input type="text" id="deviceid" name="deviceid"> <br>
-  <input type="submit" id="doApply" value="Apply"><br>
-</form>
-
+  <table>
+    <tr>
+      <td>phone:(+86)</td>
+      <td><input type="text" id="phone" name="phone"></td>
+    </tr>
+    <tr>
+      <td>code：</td>
+      <td><input type="text" id="code" name="code"></td>
+      <td><input type="button" id="sendCode" value="发送验证码"></td>
+    </tr>
+    <tr>
+      <td><input type="button" id="doVerify" value="验证验证码"></td>
+    </tr>
+  </table>
 </body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
+        type="text/javascript"></script>
+<script type="text/javascript">
+  $("#sendCode").click(function () {
+    sendCode();
+  });
+  $("#doVerify").click(function () {
+    doVerify();
+  });
+
+  function sendCode() {
+    var phone = document.getElementById("phone").value;
+    $.ajax({
+      type: 'POST',
+      url: "/sendCode",
+      data: {'phone': phone},
+      dataType: 'text', // 返回值类型
+      success: function (data) {
+        var code = data.toString();
+        var len = code.length;
+        if(len == 0){
+          alert("亲，验证码已经发送过去了，请耐心等待");
+        }else {
+          alert("亲，你的验证码为：" + data.toString() + ".(假装这是手机短信)");
+        }
+      },
+      error: function () {
+        alert("亲，发送失败，请稍后重试");
+      }
+    });
+  }
+
+  function doVerify() {
+    var phone = document.getElementById("phone").value;
+    var code = document.getElementById("code").value;
+    $.ajax({
+      type: 'POST',
+      url: "/doVerify",
+      data: {'phone': phone, 'code': code},
+      dataType: 'text', // 返回值类型
+      success: function (data) {
+        alert("亲，" + data.toString());
+      },
+      error: function () {
+        alert("亲，发送失败，请稍后重试");
+      }
+    });
+  }
+</script>
 </html>

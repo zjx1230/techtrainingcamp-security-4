@@ -14,10 +14,6 @@ spring:
     host: localhost
     port: 6379
     password:
-#  devtools:
-#    restart:
-#      enabled: false
-#  这样关闭热部署失败了
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: org.study.grabyou.entity

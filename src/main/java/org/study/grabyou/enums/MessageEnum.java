@@ -12,7 +12,9 @@ public enum MessageEnum {
   RiskMessage3("Limit 3"),
   Wrong("Get data Error, pls try latter"),
   WrongPassword("Password Error"),
-  WrongCode("Code Error");
+  OutDateCode("code out date"),
+  WrongCode("Code Error"),
+  SuccessCode("Code Success");
 
 
   private String message;

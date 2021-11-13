@@ -5,9 +5,9 @@ import org.study.grabyou.entity.Status;
 
 public interface ApplyService {
 
-  String getCode(String phonenum, String ip, String deviceid);
+  String setCode(String phonenum, String ip, String deviceid);
 
-  boolean verifyCode(String phonenum, String ip, String deviceid, String code);
+  int verifyCode(String phonenum, String ip, String deviceid, String code);
 
   Status verifyCode(String phonenum, String ip, String deviceid, String code, Status status);
 }

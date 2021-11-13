@@ -78,45 +78,4 @@ public class RegisterController {
     registerService.insertUser(user, status);
     return status;
   }
-
-  /**
-   * 前端点击发送验证码后，会将手机号传到后端
-   * 后端产生验证码，验证码会在服务器控制台输出，并返回到前端通过alert展示（当作通过短信发送到手机上）。
-   *
-   * @param phone 需要接受验证码的手机号
-   * @return 验证码
-   */
-  @PostMapping(value = "/sendCode")
-  @ResponseBody
-  public String sendCode(String phone) {
-    String ip = ServletUtil.getIp();
-    String device = ServletUtil.getFullDeviceID();
-    String code = applyService.getCode(phone, ip, device);
-    System.out.println("==================");
-    System.out.println(phone + "对应的验证码为" + code + "!!!!");
-    System.out.println("==================");
-    return code;
-  }
-//
-//
-//  @PostMapping(value = "/signup_username")
-//  public String signupWithUsername(String username, String password) {
-//    SignUpStatus signUpStatus = SignUpProcess.judgeUserByName(username, password);
-//    // 通过查看用户名，发现没有问题，那么尝试插入到数据库中
-//    if (signUpStatus.getStatus_code() == 0) {
-//      HttpSession session = getSession();
-//      String phone = (String) session.getAttribute("phone");
-//      signUpStatus = SignUpProcess.insertUser(phone, username, password);
-//    }
-//    // 输出注册结果
-//    System.out.println(signUpStatus.getMessage());
-//    // 根据注册结果，返回不同的页面
-//    if (signUpStatus.getStatus_code() == 0) {
-//      return "success";
-//    } else {
-//      return "signup_username";
-//    }
-//  }
-
-
 }

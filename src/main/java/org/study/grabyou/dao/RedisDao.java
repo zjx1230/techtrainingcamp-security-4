@@ -1,5 +1,6 @@
 package org.study.grabyou.dao;
 
+import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.data.redis.core.RedisCallback;
@@ -170,4 +171,26 @@ public class RedisDao {
   public <T> T evalSha(final String sha, final int keycount, final String... args) {
     return (T) redisTemplate.execute((RedisCallback<Object>) connection -> ((Jedis) connection.getNativeConnection()).evalsha(sha, keycount, args));
   }
+
+
+  /**
+   * redis中设置暂存值
+   * @param key key 值
+   * @param value value 值
+   * @param period 存活时间
+   * @param unit 时间单位
+   */
+  public void saveUserCode(String key, String value, int period, TimeUnit unit){
+    redisTemplate.opsForValue().set(key, value, period, unit);
+  }
+
+  /**
+   * 获得 Key对应的存储值
+   * @param key key 值
+   * @return value 值
+   */
+  public String getUserCode(String key){
+    return (String) redisTemplate.opsForValue().get(key);
+  }
+
 }
