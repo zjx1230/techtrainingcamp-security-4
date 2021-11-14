@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.study.grabyou.dao.RedisDao;
+import org.study.grabyou.entity.Status;
 import org.study.grabyou.entity.User;
 import org.study.grabyou.entity.impl.RegisterStatus;
 import org.study.grabyou.enums.EventType;
@@ -54,38 +55,9 @@ public class RegisterController {
    */
   @PostMapping(value = "/register")
   @ResponseBody
-  public RegisterStatus getRegisterStatus(String username, String password, String phone,
+  public Status getRegisterStatus(String username, String password, String phone,
       String code) {
-    String ip = ServletUtil.getIp();
-    String device = ServletUtil.getDeviceID();
-    //  String device = ServletUtil.getFullDeviceID();
-    User user = new User(phone, username, password);
-    RegisterStatus status = new RegisterStatus();
-    // 1 - DecisionType
-    int decisiontype = riskControllService.analysis(username, EventType.REGISTER, ip, device, phone);
-    userAccessService.judgeDecisionType(decisiontype, status);
-    // 风控直接停止下一步操作，更新情况
-    if(decisiontype > 0){
-      return status;
-    }
-    // 2 - 生成message
-    // 2.1 判断是否存在用户名相同的人
-    userAccessService.judgeUserByName(user, status);
-    // 2.2 判断是否存在手机相同的人
-    userAccessService.judgeUserByPhone(user, status);
-    // 2.3 判断验证码问题
-    applyService.verifyCode(phone, ip, device, code, status);
-    // 3 - sessionID & ExpireTime
-    HttpSession httpSession = ServletUtil.getSession();
-    String sessionID = httpSession.getId();
-    httpSession.setMaxInactiveInterval(60*5); //5分钟
-    status.setSessionID(sessionID);
-    status.setExpireTime(10);
-    // 4 - 尝试对用户进行注册
-    userAccessService.insertUser(user, status);
-    if(status.getCode() == 0){
-      redisDao.saveKeyValue(ServletUtil.getSessionID(), JSON.toJSONString(user), 5, TimeUnit.MINUTES);
-    }
+    Status status = userAccessService.userRegister(username, password, phone, code);
     return status;
   }
 }

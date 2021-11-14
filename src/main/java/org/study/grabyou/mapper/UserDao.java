@@ -26,4 +26,10 @@ public interface UserDao {
   List<User> selectAllUser();
 
   User selectUserByNameOrPhone(User user);
+
+  User selectUserByName(String username);
+
+  User selectUserByNameAndPassword(User user);
+
+  User selectUserByPhoneNumber(String phoneNumber);
 }

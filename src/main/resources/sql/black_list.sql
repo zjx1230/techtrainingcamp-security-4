@@ -1,4 +1,4 @@
-
+# 创建黑名单数据库
 -- mysql
 DROP TABLE IF EXISTS `BLACK_LIST`;
 CREATE TABLE `BLACK_LIST` (

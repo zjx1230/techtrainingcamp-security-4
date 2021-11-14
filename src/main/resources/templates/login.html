@@ -5,11 +5,46 @@
   <title>login</title>
 </head>
 <body>
-<form role="form" action="/loginIn" method="post">
-  账号：<input type="text" id="name" name="name"> <br>
-  密码：<input type="password" id="password" name="password"> <br>
-  <input type="submit" id="login" value="login">
+Try
+<form role="form" action="/login_name" method="post">
+  账号：<input type="text" id="username" name="username"> <br>
+  密码：<input type="text" id="password" name="password"> <br>
+  <input type="submit" id="login_name" value="login">
 </form>
-
+OR
+<form role="form" action="/login_phone" method="post">
+  手机号：<input type="text" id="PhoneNumber" name="PhoneNumber"> <br>
+  验证码：<input type="text" id="code" name="code">
+  <input type="button" id="sendCode" value="发送验证码">
+  <input type="submit" id="login_phone" value="login">
+</form>
 </body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"
+        type="text/javascript"></script>
+<script type="text/javascript">
+  $("#sendCode").click(function () {
+    sendCode();
+  });
+  function sendCode() {
+    var phone = document.getElementById("PhoneNumber").value;
+    $.ajax({
+      type: 'POST',
+      url: "/sendCode",
+      data: {'phone': phone},
+      dataType: 'text', // 返回值类型
+      success: function (data) {
+        var code = data.toString();
+        var len = code.length;
+        if(len == 0){
+          alert("亲，验证码已经发送过去了，请耐心等待");
+        }else {
+          alert("亲，你的验证码为：" + data.toString() + ".(假装这是手机短信)");
+        }
+      },
+      error: function () {
+        alert("亲，发送失败，请稍后重试");
+      }
+    });
+  }
+</script>
 </html>

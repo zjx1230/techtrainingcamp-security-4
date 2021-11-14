@@ -54,7 +54,8 @@ public class ApplyController {
   @ResponseBody
   public String sendCode(String phone) {
     String ip = ServletUtil.getIp();
-    String device = ServletUtil.getFullDeviceID();
+    String device = ServletUtil.getDeviceID();
+//    String device = ServletUtil.getFullDeviceID();
     String code = applyService.setCode(phone, ip, device);
     if(code != ""){
       System.out.println("==================");

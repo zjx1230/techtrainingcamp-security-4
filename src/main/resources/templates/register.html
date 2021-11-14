@@ -48,7 +48,13 @@
       data: {'phone': phone},
       dataType: 'text', // 返回值类型
       success: function (data) {
-        alert("你的验证码为：" + data.toString() + ".(假装这是手机短信)");
+        var code = data.toString();
+        var len = code.length;
+        if(len == 0){
+          alert("亲，验证码已经发送过去了，请耐心等待");
+        }else {
+          alert("亲，你的验证码为：" + data.toString() + ".(假装这是手机短信)");
+        }
       },
       error: function () {
         alert("发送失败，请稍后重试");

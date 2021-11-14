@@ -1,17 +1,22 @@
 package org.study.grabyou.entity.impl;
 
+import org.springframework.stereotype.Component;
 import org.study.grabyou.entity.Status;
 
-public class DeregisterStatus extends Status {
+/**
+ * 登录状态
+ */
+@Component
+public class LoginStatus extends Status {
 
-  public DeregisterStatus(){
+  public LoginStatus() {
     super();
-    message = "注销成功";
+    message = "登录成功";
   }
 
   @Override
   public String toString() {
-    return "DeregisterStatus{" +
+    return "LoginStatus{" +
         "code=" + code +
         ", message='" + message + '\'' +
         ", sessionID='" + sessionID + '\'' +

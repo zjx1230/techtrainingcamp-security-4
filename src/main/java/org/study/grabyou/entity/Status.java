@@ -6,14 +6,14 @@ package org.study.grabyou.entity;
 
 public abstract class Status {
 
-  protected int code;
+  protected int code; // 1 - 注册成功 0 - 注册失败
   protected String message;
   protected String sessionID;
   protected int expireTime; // seconds 单位
   protected int decisionType;
 
   public Status() {
-    this.code = 0;
+    this.code = 1;
     this.expireTime = 5 * 60;
   }
 
@@ -63,7 +63,8 @@ public abstract class Status {
    * @param message
    */
   public void setErrorMessage(String message) {
-    if (this.code == 0) {
+    if (this.code == 1) {
+      this.code = 0;
       this.message = message;
     } else {
       this.message = this.message + message;

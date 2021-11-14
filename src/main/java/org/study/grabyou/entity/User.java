@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class User {
 
-  private Integer uid;
   private String username;
   private String password;
   private String phoneNumber;
@@ -28,15 +27,10 @@ public class User {
   }
 
   public User() {
+    username = "";
+    password = "";
+    phoneNumber = "";
 
-  }
-
-  public int getUid() {
-    return uid;
-  }
-
-  public void setUid(Integer uid) {
-    this.uid = uid;
   }
 
   public String getUsername() {
@@ -74,7 +68,6 @@ public class User {
   @Override
   public String toString() {
     return "User{" +
-        "uid=" + uid +
         ", username='" + username + '\'' +
         ", password='" + password + '\'' +
         ", phoneNumber='" + phoneNumber + '\'' +

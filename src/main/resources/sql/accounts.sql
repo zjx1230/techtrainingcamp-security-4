@@ -1,3 +1,4 @@
+# 创建用户信息数据库
 CREATE TABLE `accounts`
 (
     `uid`         int NOT NULL PRIMARY KEY AUTO_INCREMENT,
