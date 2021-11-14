@@ -77,7 +77,7 @@ public class ApplyController {
   @ResponseBody
   public String verify(String phone, String code) {
     String ip = ServletUtil.getIp();
-    String device = ServletUtil.getFullDeviceID();
+    String device = ServletUtil.getDeviceID();
     return applyService.verifyCode(phone, ip, device, code, new ApplyStatus()).getMessage();
   }
 }

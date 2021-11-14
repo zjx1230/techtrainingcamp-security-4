@@ -66,14 +66,13 @@ public class UserAccessService {
     // 3 - sessionID & ExpireTime
     HttpSession httpSession = ServletUtil.getSession();
     String sessionID = httpSession.getId();
-    httpSession.setMaxInactiveInterval(60*5); //5分钟
     status.setSessionID(sessionID);
-    status.setExpireTime(60*5);
     // 4 - 尝试对用户进行注册
     insertUser(user, status);
     // 注册成功，则写入缓存
     if(status.getCode() == 1){
       redisDao.saveKeyValue(sessionID, JSON.toJSONString(user), 5, TimeUnit.MINUTES);
+      status.setExpireTime(60*5);
     }
     return status;
   }
@@ -211,6 +210,7 @@ public class UserAccessService {
    */
   public User getUser(String sessionID){
     String value = redisDao.getValue(sessionID);
+    System.out.println(value);
     User user = new User();
     try{
       user = JSON.parseObject(value, User.class);
@@ -283,7 +283,7 @@ public class UserAccessService {
    * @param user
    */
   public void saveStatus(String sessionID, User user){
-//    System.out.println(JSON.toJSONString(user));
+    System.out.println("保存Redis缓存中"+JSON.toJSONString(user));
     redisDao.saveKeyValue(sessionID, JSON.toJSONString(user), 5, TimeUnit.MINUTES);
   }
 }
